@@ -13,6 +13,7 @@
 <title>Test Vocacional CASM</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- reCAPTCHA removed - using custom verification -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Fraunces:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
@@ -191,7 +192,56 @@ line-height: 1.3;
 animation: fadeIn 1s ease-out 0.3s both;
 }
 
-/* developer-section removed */
+/* SECCIÓN DE DESARROLLADOR SIMPLIFICADA EN MORADO */
+.developer-section {
+background: linear-gradient(135deg, var(--casm-purple) 0%, var(--casm-purple-light) 100%);
+border-radius: 15px;
+padding: 20px;
+margin: 20px 0;
+text-align: center;
+box-shadow: 0 8px 25px rgba(74, 20, 140, 0.3);
+animation: fadeInUp 0.8s ease-out;
+border: 3px solid #1E8235;
+}
+
+.developer-section p {
+color: #FFFFFF;
+font-size: 1rem;
+line-height: 1.5;
+font-weight: 500;
+}
+
+.developer-section .developer-name {
+color: #FFD700;
+font-weight: 800;
+font-size: 1.1rem;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.exit-btn {
+position: fixed;
+top: 15px;
+left: 15px;
+background: var(--casm-red);
+color: #ffffff !important;
+border: none;
+padding: 8px 15px;
+border-radius: 20px;
+cursor: pointer;
+font-weight: 700;
+font-size: 0.85rem;
+z-index: 2000;
+box-shadow: 0 3px 8px rgba(198, 40, 40, 0.4);
+display: none;
+transition: all 0.3s;
+text-decoration: none;
+}
+
+.exit-btn:hover {
+background: #B71C1C;
+transform: scale(1.05);
+box-shadow: 0 4px 12px rgba(198, 40, 40, 0.5);
+}
 
 .exit-btn.visible {
 display: block;
@@ -297,15 +347,24 @@ font-weight: 600;
 
 /* Términos y condiciones */
 .terms-container {
-max-height: 400px;
+max-height: 65vh;
+min-height: 280px;
 overflow-y: auto;
 border: 3px solid var(--casm-gold);
 border-radius: 12px;
-padding: 20px;
+padding: 22px;
 margin: 20px 0;
 background: var(--casm-white);
 text-align: left;
 box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+scroll-behavior: smooth;
+-webkit-overflow-scrolling: touch;
+}
+.terms-container::-webkit-scrollbar { width: 6px; }
+.terms-container::-webkit-scrollbar-track { background: var(--casm-cream); border-radius: 6px; }
+.terms-container::-webkit-scrollbar-thumb { background: var(--casm-green-light); border-radius: 6px; }
+@media (max-width: 600px) {
+  .terms-container { max-height: 55vh; padding: 16px; }
 }
 
 .terms-section {
@@ -939,7 +998,37 @@ justify-content: space-between;
 }
 }
 
+/* Logos durante tests */
+.test-logos-container {
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+background: linear-gradient(to top, rgba(245, 246, 232, 0.98) 0%, rgba(245, 246, 232, 0.9) 60%, transparent 100%);
+padding: 15px 30px 10px;
+display: flex;
+justify-content: flex-end;
+align-items: center;
+z-index: 100;
+pointer-events: none;
+box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
 
+.test-logo {
+height: 55px;
+width: auto;
+pointer-events: auto;
+transition: transform 0.3s ease;
+filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+}
+
+.test-logo:hover {
+transform: scale(1.15) translateY(-5px);
+}
+
+#step4 .container {
+padding-bottom: 100px;
+}
 
 /* Resultados */
 .results-container {
@@ -1609,9 +1698,13 @@ width: 60px;
 padding-right: 75px;
 }
 
+.test-logo {
+height: 45px;
+}
 
-
-
+.test-logos-container {
+padding: 12px 20px 8px;
+}
 
 .container {
 padding-top: 110px;
@@ -1623,9 +1716,13 @@ padding-top: 20px;
 }
 
 @media (max-width: 768px) {
+.test-logos-container {
+padding: 12px 20px 8px;
+}
 
-
-
+.test-logo {
+height: 50px;
+}
 
 .header-logo {
 width: 65px;
@@ -1699,17 +1796,96 @@ padding-right: 70px;
 50% { opacity: 0.7; }
 }
 
-/* reCAPTCHA */
-.recaptcha-wrapper {
-background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
-border: 2px solid #4CAF50;
-border-radius: 16px;
-padding: 20px 24px;
-margin: 20px 0;
-animation: fadeInUp 0.6s ease-out;
+/* ── CUSTOM ROBOT CHECK ── */
+.custom-robot-wrapper {
+  background: #F9FAFB;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  width: 300px;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
 }
-.recaptcha-header {
-display: flex;
+.robot-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+  user-select: none;
+}
+.robot-cb-box {
+  width: 26px;
+  height: 26px;
+  border: 2px solid #9CA3AF;
+  border-radius: 3px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.robot-cb-box .rc-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid #e5e7eb;
+  border-top-color: var(--casm-green);
+  border-radius: 50%;
+  display: none;
+  animation: spin 0.7s linear infinite;
+}
+.robot-cb-box .rc-check {
+  color: var(--casm-green);
+  font-size: 1.1rem;
+  display: none;
+}
+.robot-cb-input {
+  display: none;
+}
+.robot-cb-input:checked + .robot-cb-box {
+  border-color: var(--casm-green);
+  background: #F0FFF4;
+}
+.robot-branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.robot-brand-logo {
+  font-size: 1.4rem;
+}
+.robot-brand-text {
+  font-size: 0.55rem;
+  color: #9CA3AF;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+  text-align: center;
+}
+.robot-verified-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(15,74,24,.07), rgba(255,255,255,.95));
+  border: 2px solid rgba(15,74,24,.25);
+  border-radius: 12px;
+  padding: 14px 18px;
+  animation: fadeInUp .4s ease-out;
+}
+.robot-verified-icon { font-size: 1.6rem; }
+.robot-verified-title { font-weight: 800; font-size: 0.95rem; color: var(--casm-green-mid); }
+.robot-verified-sub { font-size: .78rem; color: var(--casm-gray); margin-top: 2px; }
+
 align-items: center;
 gap: 10px;
 font-size: 1rem;
@@ -1717,22 +1893,7 @@ color: var(--casm-green-dark);
 margin-bottom: 16px;
 font-weight: 700;
 }
-.recaptcha-icon { font-size: 1.5rem; }
-.recaptcha-body {
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-gap: 12px;
-}
-.recaptcha-note {
-font-size: 0.88rem;
-color: var(--casm-gray);
-font-weight: 500;
-}
 #btn-terms-continue:disabled { opacity: 0.5; cursor: not-allowed; }
-@media (max-width: 480px) {
-.recaptcha-body .g-recaptcha { transform: scale(0.88); transform-origin: left; }
-}
 
 
 
@@ -1784,7 +1945,7 @@ html { scroll-behavior: smooth; }
 
 /* Hero welcome animation on step0 */
 .card-title {
-background: linear-gradient(135deg, var(--casm-green-dark), var(--casm-green));
+background: linear-gradient(135deg, #1B6E2A 0%, #27A040 60%, #1B6E2A 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
@@ -2252,7 +2413,56 @@ animation: toastIn 0.4s cubic-bezier(0.4,0,0.2,1) !important;
 
 
 /* TERMS LOGOS BANNER */
-/* terms-logos-banner removed — logos now only in header */
+.terms-logos-banner {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 20px;
+padding: 20px;
+background: linear-gradient(135deg, #FAFDF7 0%, #F4FBF0 50%, #EEF8E8 100%);
+border-radius: 16px;
+margin-bottom: 20px;
+flex-wrap: wrap;
+box-shadow: 0 6px 24px rgba(15,74,24,0.10);
+animation: fadeInUp 0.6s ease-out;
+border: 2px solid rgba(15,74,24,0.18);
+}
+.terms-logo-img {
+height: 60px;
+width: auto;
+max-width: 85px;
+object-fit: contain;
+filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
+transition: transform 0.3s;
+border-radius: 6px;
+}
+.terms-logo-img:hover { transform: scale(1.1) rotate(-3deg); }
+.terms-org-info {
+text-align: center;
+flex: 1;
+min-width: 180px;
+}
+.terms-org-title {
+color: #0F4A18;
+font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+font-weight: 800;
+margin-bottom: 4px;
+font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.terms-org-sub {
+color: #3A5530;
+font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+font-weight: 500;
+margin-bottom: 6px;
+}
+.terms-org-dev {
+color: #6A7E65;
+font-size: 0.75rem;
+}
+@media (max-width: 480px) {
+.terms-logos-banner { gap: 12px; padding: 15px; }
+.terms-logo-img { height: 46px; }
+}
 
 
 .terms-welcome-badge {
@@ -2300,6 +2510,7 @@ animation: bounceIn 0.6s ease-out;
 body.splash-active .scroll-progress,
 body.splash-active canvas#particles-canvas,
 body.splash-active .exit-btn,
+body.splash-active #global-exit-btn,
 body.splash-active .modal-overlay,
 body.splash-active header.header,
 body.splash-active .section,
@@ -2337,16 +2548,16 @@ body.splash-active #floating-notification { display: none !important; }
 .splash-ring {
   position: absolute;
   border-radius: 50%;
-  border: 2px solid rgba(15,74,24,.22);
+  border: 2px solid rgba(27,110,42,.30);
   pointer-events: none;
-  animation: ringPulse 6s ease-in-out infinite;
+  animation: ringPulse 5s ease-in-out infinite;
 }
 .splash-ring-1 { width: 500px; height: 500px; animation-delay: 0s; }
-.splash-ring-2 { width: 720px; height: 720px; animation-delay: 1.5s; opacity: .6; }
-.splash-ring-3 { width: 960px; height: 960px; animation-delay: 3s;   opacity: .35; }
+.splash-ring-2 { width: 720px; height: 720px; animation-delay: 1.5s; opacity: .75; }
+.splash-ring-3 { width: 960px; height: 960px; animation-delay: 3s;   opacity: .50; }
 @keyframes ringPulse {
-  0%,100% { transform: scale(1);    opacity: .18; }
-  50%      { transform: scale(1.04); opacity: .35; }
+  0%,100% { transform: scale(1);    opacity: .35; }
+  50%      { transform: scale(1.05); opacity: .70; }
 }
 
 .splash-inner {
@@ -2520,7 +2731,8 @@ body.splash-active #floating-notification { display: none !important; }
 .splash-captcha-wrap {
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
+  width: 100%;
 }
 
 /* ── Enter button ── */
@@ -2595,20 +2807,23 @@ body.splash-active #floating-notification { display: none !important; }
   .splash-chips { gap:7px; }
   .splash-chip { font-size:.74rem; padding:6px 11px; }
   .splash-gate { padding:18px 16px 16px; max-width:340px; }
-  .custom-verify-box { padding: 12px 14px; gap: 12px; }
 }
 
-/* ── Terms logos banner — clear background so logos visible ── */
-/* terms banner override removed */
+/* ── Terms logos banner — light background so logos are clearly visible ── */
+.terms-logos-banner {
+  background: linear-gradient(135deg, #FAFDF7 0%, #F4FBF0 50%, #EEF8E8 100%) !important;
+  border: 2px solid rgba(15,74,24,.18) !important;
+  box-shadow: 0 6px 24px rgba(15,74,24,.10) !important;
+}
+.terms-org-title  { color: #0F4A18 !important; }
+.terms-org-sub    { color: #3A5530 !important; }
+.terms-org-dev    { color: #6A7E65 !important; }
 
 /* ── Developer section — same clear dark green ── */
 .developer-section {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8F6EE 60%, #F0EDE2 100%) !important;
-  border: 2px solid rgba(15,74,24,.15) !important;
-  box-shadow: 0 4px 20px rgba(15,74,24,.08) !important;
+  background: linear-gradient(135deg, #051A08 0%, #0A2510 50%, #0F3518 100%) !important;
+  border: 1px solid rgba(196,117,0,.25) !important;
 }
-.developer-section p { color: var(--casm-gray-dark) !important; }
-.developer-name { color: var(--casm-green-mid) !important; }
 
 
 /* ╔══════════════════════════════════════════════════════╗
@@ -2618,7 +2833,7 @@ body.splash-active #floating-notification { display: none !important; }
 /* Animated gradient body */
 body {
   background: linear-gradient(135deg,
-    #E8F0DE 0%, #F5F0DC 20%, #E2EDD8 40%, #F0E8D0 60%, #DAE8D2 80%, #E8F0DE 100%) !important;
+    #F5F2E4 0%, #FDFAEF 20%, #F0EDE0 40%, #FAF6E8 60%, #EEF0E2 80%, #F5F2E4 100%) !important;
   background-size: 400% 400% !important;
   animation: pageGradient 18s ease infinite !important;
 }
@@ -2913,9 +3128,13 @@ body {
 
 /* Confidentiality banner */
 .confidentiality-banner {
-  background: linear-gradient(135deg, var(--casm-green-dark), var(--casm-green)) !important;
+  background: linear-gradient(135deg, #F0FBF2 0%, #E8F7EC 100%) !important;
+  border: 2px solid rgba(27,110,42,0.25) !important;
+  border-left: 5px solid #1B6E2A !important;
   border-radius: 14px !important;
 }
+.confidentiality-text h3 { color: #0F4A18 !important; }
+.confidentiality-text p  { color: #2E4A30 !important; }
 
 /* IQ score deep green/gold gradient */
 .iq-score-display {
@@ -3002,183 +3221,136 @@ body, p, li, span, input, select, button {
 }
 
 
-.test-badge-row { margin-bottom: 8px; }
-.test-badge {
-  display: inline-block;
-  padding: 3px 12px;
-  border-radius: 20px;
-  font-size: .68rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+/* ═══ PROFESSIONAL FINAL POLISH ═══ */
+
+/* IQ Score gradient glow */
+.iq-score-display {
+  animation: scoreGlowPulse 2.5s ease-in-out infinite;
 }
-.test-badge-green {
-  background: rgba(15,74,24,.12);
-  color: var(--casm-green-mid);
-  border: 1px solid rgba(15,74,24,.25);
-}
-.test-badge-blue {
-  background: rgba(8,40,90,.1);
-  color: var(--casm-blue-mid);
-  border: 1px solid rgba(8,40,90,.2);
-}
-.test-badge-gold {
-  background: rgba(196,117,0,.1);
-  color: var(--casm-gold);
-  border: 1px solid rgba(196,117,0,.25);
+@keyframes scoreGlowPulse {
+  0%,100% { filter: drop-shadow(0 0 0 transparent); }
+  50% { filter: drop-shadow(0 0 16px rgba(196,117,0,.35)); }
 }
 
+/* Ripple on button click */
+@keyframes ripple {
+  0% { transform: translate(-50%,-50%) scale(0); opacity:.6; }
+  100% { transform: translate(-50%,-50%) scale(3); opacity:0; }
+}
 
-/* ── CUSTOM CHECKBOX VERIFICATION ── */
-.custom-verify-box {
-  width: 100%;
-  display: flex;
+/* Restriction badge for vocational test */
+.restriction-badge {
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-  padding: 14px 18px;
-  background: #FAFAFA;
-  border: 2px solid rgba(15,74,24,.2);
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all .25s ease;
-  user-select: none;
-  -webkit-user-select: none;
-}
-.custom-verify-box:hover {
-  border-color: rgba(15,74,24,.45);
-  background: rgba(15,74,24,.04);
-  transform: scale(1.01);
-}
-.custom-verify-box.verified {
-  border-color: rgba(15,74,24,.5);
-  background: rgba(15,74,24,.06);
-}
-
-/* The animated ring/checkbox */
-.verify-check-ring {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2.5px solid rgba(15,74,24,.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all .4s cubic-bezier(.34,1.56,.64,1);
-  background: transparent;
-  animation: ringIdlePulse 2.5s ease-in-out infinite;
-}
-.verify-check-ring.verified {
-  background: linear-gradient(135deg, #1E8235, #0F4A18);
-  border-color: #1E8235;
-  animation: checkBounce .5s cubic-bezier(.34,1.56,.64,1) forwards;
-  box-shadow: 0 4px 16px rgba(15,74,24,.35);
-}
-@keyframes ringIdlePulse {
-  0%,100% { border-color: rgba(15,74,24,.25); box-shadow: 0 0 0 0 rgba(15,74,24,0); }
-  50%      { border-color: rgba(196,117,0,.6); box-shadow: 0 0 0 5px rgba(196,117,0,.1); }
-}
-@keyframes checkBounce {
-  0%   { transform: scale(.5); }
-  60%  { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.verify-check-inner {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(15,74,24,.3);
-  transition: all .3s;
-}
-.verify-check-inner.verified {
-  background: transparent;
-}
-
-.verify-check-icon {
+  gap: 6px;
+  background: linear-gradient(135deg, var(--casm-red), #6B0000);
   color: white;
-  font-size: 1rem;
-  font-weight: 900;
-  opacity: 0;
-  transition: opacity .3s .2s;
-  position: absolute;
-}
-
-.verify-check-label { flex: 1; }
-.verify-check-title {
-  font-size: .95rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--casm-gray-dark);
-  transition: color .3s;
-}
-.verify-check-sub {
-  font-size: .75rem;
-  color: var(--casm-gray);
-  margin-top: 2px;
-  transition: color .3s;
-}
-.verify-check-ring { position: relative; }
-
-
-
-/* Exit button override from animation system */
-.exit-btn {
-  background: linear-gradient(135deg, #8B1010, #A71C1C) !important;
-  border-radius: 50px !important;
-  box-shadow: 0 4px 20px rgba(139,16,16,.55) !important;
-}
-.exit-btn:hover {
-  transform: scale(1.06) translateY(-2px) !important;
-  box-shadow: 0 8px 28px rgba(139,16,16,.7) !important;
+  margin-top: 10px;
+  animation: fadeInUp 0.4s ease-out;
 }
 
+/* Question counter enhanced */
+.question-number {
+  background: linear-gradient(135deg, var(--casm-green) 0%, var(--casm-green-dark) 100%);
+  border-radius: 25px;
+  padding: 6px 16px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 12px rgba(15,74,24,.3);
+  color: white;
+  white-space: nowrap;
+}
 
-/* Terms logos banner */
-.terms-logos-banner {
+/* Smooth transitions for all sections */
+.section { will-change: opacity, transform; }
+
+/* Mobile menu padding fix */
+@media (max-width: 400px) {
+  .exit-btn { padding: 6px 10px; font-size: 0.78rem; top: 10px; left: 10px; }
+}
+
+/* Ensure option text doesn't overflow */
+.option { word-break: break-word; }
+
+/* Better tap targets on mobile */
+@media (max-width: 600px) {
+  .option { padding: 18px 14px; min-height: 52px; }
+  .btn { min-height: 48px; }
+  .gender-option { min-height: 80px; }
+}
+
+/* Ensure white text in exit button override */
+button.exit-btn, button.exit-btn:hover, button.exit-btn:active, button.exit-btn:focus {
+  color: #ffffff !important;
+}
+
+/* Animated gradient on splash title */
+.splash-title-gold {
+  background-size: 200% auto;
+  animation: gradientText 3s linear infinite;
+}
+@keyframes gradientText {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* IQ percentage font size fix */
+.iq-percentage { font-size: 1.2rem !important; padding: 10px 20px; }
+
+/* Card hover 3D */
+@media (hover:hover) {
+  .card:hover { transform: translateY(-2px); }
+}
+
+/* ── Better form focus on mobile ── */
+@media (max-width: 600px) {
+  .form-input:focus, .form-select:focus {
+    transform: none;
+    font-size: 16px; /* Prevent iOS zoom */
+  }
+}
+
+/* ═══════════════════════════════════════
+   BOTÓN SALIR FLOTANTE
+═══════════════════════════════════════ */
+#global-exit-btn {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  z-index: 9999;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px 24px;
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8F6EE 50%, #F2EFE4 100%);
-  border: 2px solid rgba(15,74,24,.15);
-  border-radius: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  box-shadow: 0 6px 24px rgba(15,74,24,.1);
-  animation: fadeInUp 0.5s ease-out;
+  gap: 4px;
+  background: rgba(255,255,255,0.88);
+  color: #8B1010;
+  border: 1.5px solid rgba(139,16,16,0.35);
+  border-radius: 50px;
+  padding: 4px 12px 4px 9px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+  backdrop-filter: blur(6px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  letter-spacing: 0.02em;
 }
-.terms-logo-img {
-  height: 62px;
-  width: auto;
-  max-width: 88px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
-  transition: transform 0.3s;
-  border-radius: 6px;
+#global-exit-btn:hover {
+  background: #8B1010;
+  color: #fff;
+  border-color: #8B1010;
 }
-.terms-logo-img:hover { transform: scale(1.08) rotate(-2deg); }
-.terms-org-info {
-  text-align: center;
-  flex: 1;
-  min-width: 160px;
-}
-.terms-org-title {
-  color: var(--casm-gold);
-  font-size: clamp(0.88rem, 2.5vw, 1.05rem);
-  font-weight: 800;
-  margin-bottom: 5px;
-  font-family: 'Fraunces', serif;
-}
-.terms-org-sub {
-  color: var(--casm-green-dark);
-  font-size: clamp(0.7rem, 1.8vw, 0.82rem);
-  font-weight: 500;
-}
-@media (max-width: 480px) {
-  .terms-logos-banner { gap: 12px; padding: 14px; }
-  .terms-logo-img { height: 48px; }
-}
+#global-exit-btn:active { opacity: 0.85; }
+.exit-icon { font-style: normal; font-size: 0.7rem; font-weight: 900; }
+.exit-label { font-size: 0.75rem; }
+
+/* Ocultar botón en splash */
+body.on-splash #global-exit-btn { display: none !important; }
 
 </style>
 </head>
@@ -3217,7 +3389,7 @@ body, p, li, span, input, select, button {
       <div class="splash-eyebrow">Honduras · 2026</div>
       <h1 class="splash-title">
         Plataforma de<br>
-        <span class="splash-title-gold">Orientación Vocacional</span>
+        <span class="splash-title-gold">Aptitud Vocacional</span>
       </h1>
       <p class="splash-sub">
         Descubre tu camino profesional, mide tu capacidad mental<br>
@@ -3232,7 +3404,7 @@ body, p, li, span, input, select, button {
       <span class="splash-chip" style="animation-delay:.4s">🚀 Emprendimiento</span>
     </div>
 
-    <!-- ── reCAPTCHA Gate ── -->
+    <!-- ── reCAPTCHA-style Custom Gate ── -->
     <div class="splash-gate">
       <div class="splash-gate-header">
         <span class="splash-gate-icon">🛡️</span>
@@ -3241,31 +3413,33 @@ body, p, li, span, input, select, button {
           <div class="splash-gate-sub">Confirma que eres humano para acceder</div>
         </div>
       </div>
-      <div class="splash-captcha-wrap">
-        <div class="custom-verify-box" id="custom-verify-box" onclick="onCheckVerify()">
-          <div class="verify-check-ring" id="verify-ring">
-            <div class="verify-check-inner" id="verify-inner">
-              <span class="verify-check-icon" id="verify-icon">✓</span>
-            </div>
+
+      <!-- Custom "No soy un robot" checkbox -->
+      <div id="robot-check-box" class="custom-robot-wrapper">
+        <label class="robot-label" for="robot-cb-input" onclick="triggerRobotCheck(event)">
+          <div class="robot-cb-box" id="robot-cb-box">
+            <div class="rc-spinner" id="rc-spinner"></div>
+            <span class="rc-check" id="rc-check">✔</span>
           </div>
-          <div class="verify-check-label">
-            <div class="verify-check-title" id="verify-title">No soy un robot</div>
-            <div class="verify-check-sub" id="verify-sub">Haz clic para confirmar</div>
-          </div>
+          <span>No soy un robot</span>
+        </label>
+        <div class="robot-branding">
+          <div class="robot-brand-logo">🔒</div>
+          <div class="robot-brand-text">Verificación<br>Segura</div>
         </div>
       </div>
+
       <button id="splash-btn" class="splash-btn" disabled onclick="enterApp()">
         <span id="splash-btn-icon">🔒</span>
         <span id="splash-btn-text">Verifica para continuar</span>
         <span class="splash-btn-arrow">→</span>
       </button>
-      <div class="splash-hint">🔒 Verificación de seguridad integrada</div>
+      <div class="splash-hint">Verificación interna CASM · Plataforma segura</div>
     </div>
 
     <!-- ── Footer ── -->
     <div class="splash-footer-txt">
-      Desarrollado por <strong>Dany Familia Alcante</strong>
-      · Lic. Orientación Escolar · Ingeniería de Software
+      © 2026 CASM · CCM · Honduras
     </div>
   </div>
 </div>
@@ -3305,23 +3479,30 @@ body, p, li, span, input, select, button {
 </div>
 </header>
 
+<!-- BOTÓN SALIR FLOTANTE -->
+<button id="global-exit-btn" onclick="performExit()" title="Salir de la sesión" aria-label="Salir">
+  <span class="exit-icon">✕</span>
+  <span class="exit-label">Salir</span>
+</button>
+
 <!-- PASO 0: TÉRMINOS Y CONDICIONES -->
 <section id="step0" class="section active">
 <div class="container">
 <div class="card" style="border-top-color: var(--casm-gold);">
 <div class="card-header" style="position:relative;">
-<div class="terms-welcome-badge">🏛️ Plataforma Oficial CASM · 2026</div>
+<div class="terms-welcome-badge">🏛️ PLATAFORMA DE APTITUD VOCACIONAL CASM</div>
 <h1 class="card-title typewriter-title" style="font-size:clamp(1.4rem,4vw,2.2rem);margin-bottom:12px;">Términos y Condiciones</h1>
 <p class="card-subtitle">Antes de comenzar, por favor lee y acepta los términos de uso</p>
 <div class="terms-divider"></div>
 </div>
 
-<!-- Logos CASM y CCM en términos -->
+<!-- LOGOS CASM Y CCM EN TÉRMINOS -->
 <div class="terms-logos-banner">
   <img src="https://kimi-web-img.moonshot.cn/img/casm.hn/d7589c85b82e2d51d63745bd392cc94bedc22a2e.png" alt="CASM" class="terms-logo-img">
   <div class="terms-org-info">
     <div class="terms-org-title">Plataforma de Orientación Vocacional</div>
     <div class="terms-org-sub">Comisión de Acción Social Menonita · Comité Central Menonita</div>
+    <div class="terms-org-dev">Honduras · 2026</div>
   </div>
   <img src="https://kimi-web-img.moonshot.cn/img/i0.wp.com/e94feb26162d53a1fcbabdbc92c15fe4874730be.png" alt="CCM" class="terms-logo-img">
 </div>
@@ -3444,7 +3625,7 @@ Continuar a Datos Personales →
 
 <div class="card" style="border-top-color: var(--casm-green);">
 <div class="card-header">
-<h1 class="card-title" style="color: var(--casm-green-dark);">Datos Generales</h1>
+<h1 class="card-title" style="color: #1B6E2A;">Datos Generales</h1>
 <p class="card-subtitle">Completa tu información para comenzar</p>
 </div>
 
@@ -3527,7 +3708,7 @@ Continuar a Datos Personales →
 </div>
 
 <div class="card-header">
-<h2 class="card-title" style="color: var(--casm-green-dark);">Selecciona tu Test</h2>
+<h2 class="card-title" style="color: #1B6E2A;">Selecciona tu Test</h2>
 <p class="card-subtitle">Elige la evaluación que deseas realizar</p>
 </div>
 
@@ -3578,7 +3759,7 @@ Continuar a Datos Personales →
 </div>
 
 <div class="card-header">
-<h2 class="card-title" id="desc-title" style="color: var(--casm-green-dark);">Título del Test</h2>
+<h2 class="card-title" id="desc-title" style="color: #1B6E2A;">Título del Test</h2>
 <p class="card-subtitle" id="desc-subtitle">Descripción breve</p>
 </div>
 
@@ -3636,7 +3817,7 @@ Continuar a Datos Personales →
 </div>
 </div>
 
-
+<!-- No floating logos during test -->
 </section>
 
 <!-- PASO 5: Resultados -->
@@ -3773,11 +3954,8 @@ Considerando mercado local, recursos disponibles, cultura emprendedora y oportun
 </div>
 
 <div class="footer-credits">
-<h4>👨‍💻 Desarrollador</h4>
-<p class="developer-name">Dany Familia Alcante</p>
-<p>Licenciado en Orientación Escolar | Estudiante de Ingeniería de Software</p>
-<p style="margin-top: 12px; font-size: 0.8rem; color: var(--casm-gray); font-weight: 600;">
-© 2026 CASM (Comisión de Acción Social Menonita) - Todos los derechos reservados.
+<p style="font-size: 0.85rem; color: var(--casm-gray); font-weight: 500; text-align:center;">
+© 2026 CASM (Comisión de Acción Social Menonita) · CCM (Comité Central Menonita)
 </p>
 </div>
 
@@ -3934,115 +4112,115 @@ return {category, text, options: ["Mucho", "Algo", "Poco", "Nada"]};
 
 // PREGUNTAS IQ EXPANDIDAS - 100 PREGUNTAS POR GRUPO DE EDAD
 const iqQuestionsChild = [
-// Series visuales y patrones (20)
-{text: "¿Qué figura sigue? 🔴 🔴 🔴 ___", options: ["🔴", "🔵", "🟢", "🟡"], correct: 0},
-{text: "¿Qué figura sigue? 🔺 🔺 🔺 ___", options: ["🔺", "🔴", "🟦", "⭐"], correct: 0},
-{text: "¿Qué figura sigue? 🟡 🟡 🟡 ___", options: ["🟡", "🔴", "🔵", "🟢"], correct: 0},
-{text: "¿Qué figura sigue? ⭐ ⭐ ⭐ ___", options: ["⭐", "🔴", "🔺", "🟦"], correct: 0},
-{text: "¿Qué figura sigue? 🔵 🔵 🔵 ___", options: ["🔵", "🔴", "🟢", "🟡"], correct: 0},
-{text: "¿Qué figura sigue? 🟦 🟦 🟦 ___", options: ["🟦", "🔴", "🔺", "⭐"], correct: 0},
-{text: "¿Qué figura sigue? 🟢 🟢 🟢 ___", options: ["🟢", "🔴", "🔵", "🟡"], correct: 0},
-{text: "Completa: 🔴🔴 🔴🔴 🔴🔴 ___", options: ["🔴🔴", "🔵🔵", "🟢🟢", "🟡🟡"], correct: 0},
-{text: "Completa: ⭐⭐⭐ ⭐⭐⭐ ⭐⭐⭐ ___", options: ["⭐⭐⭐", "🔴🔴🔴", "🔵🔵🔵", "🟢🟢🟢"], correct: 0},
-{text: "¿Cuál es diferente? 🔴🔴🔴 🔴🔴🔴 🔴🔵🔴", options: ["Primera", "Segunda", "Tercera", "Ninguna"], correct: 2},
-{text: "Completa: 🟡🟡 🟡🟡 🟡🟡 ___", options: ["🟡🟡", "🔴🔴", "🔵🔵", "🟢🟢"], correct: 0},
-{text: "¿Qué figura sigue? 🔴🔵 🔴🔵 🔴🔵 ___", options: ["🔴🔵", "🔵🔴", "🟢🟡", "🟡🟢"], correct: 0},
-{text: "Completa: ⭐🔴 ⭐🔴 ⭐🔴 ___", options: ["⭐🔴", "🔴⭐", "⭐⭐", "🔴🔴"], correct: 0},
-{text: "¿Qué figura falta? 🔴 🟡 🔴 🟡 🔴 ___", options: ["🔴", "🟡", "🟢", "🔵"], correct: 1},
-{text: "Completa: 🔺🔺🔺 🔺🔺 ___ 🔺", options: ["🔺🔺", "🔺", "🔺🔺🔺", "Ninguna"], correct: 0},
-{text: "¿Cuál es diferente? 🟢🟢 🟢🟢 🟢🟡", options: ["Primera", "Segunda", "Tercera", "Todas iguales"], correct: 2},
-{text: "Completa: 🔵⭐ 🔵⭐ 🔵⭐ ___", options: ["🔵⭐", "⭐🔵", "🔵🔵", "⭐⭐"], correct: 0},
-{text: "¿Qué figura sigue? 🟡🔴 🟡🔴 🟡🔴 ___", options: ["🟡🔴", "🔴🟡", "🟢🔵", "🔵🟢"], correct: 0},
-{text: "Completa: 🔴🔴🔴 🔴🔴 ___ 🔴", options: ["🔴🔴", "🔴", "🔴🔴🔴", "Ninguna"], correct: 0},
-{text: "¿Qué figura falta? ⭐🔵 ⭐🔵 ⭐ ___", options: ["⭐", "🔵", "🔴", "🟢"], correct: 1},
+// Series y patrones variados (20) - Basado en matrices de Raven adaptadas a niños
+{text: "¿Qué figura sigue? 🔴 🔵 🔴 🔵 ___", options: ["🔴", "🔵", "🟢", "🟡"], correct: 1},
+{text: "¿Qué figura sigue? 🔺 🔵 🔺 🔵 🔺 ___", options: ["🔺", "🔵", "🟢", "🟡"], correct: 1},
+{text: "¿Qué número sigue? 2, 4, 6, 8, ___", options: ["9", "10", "12", "14"], correct: 1},
+{text: "¿Qué número sigue? 1, 3, 5, 7, ___", options: ["8", "9", "10", "11"], correct: 1},
+{text: "¿Cuál es diferente? 🐶 🐱 🐭 🌸", options: ["🐶", "🐱", "🐭", "🌸"], correct: 3},
+{text: "¿Qué figura sigue? ⬜ ⬛ ⬜ ⬛ ___", options: ["⬜", "⬛", "🟦", "🟥"], correct: 1},
+{text: "¿Qué número sigue? 5, 10, 15, 20, ___", options: ["22", "24", "25", "30"], correct: 2},
+{text: "¿Cuál NO pertenece al grupo? Manzana, Pera, Naranja, Zanahoria", options: ["Manzana", "Pera", "Naranja", "Zanahoria"], correct: 3},
+{text: "¿Qué figura sigue? 🌟 🌟 🌟 🌙 🌟 🌟 🌟 ___", options: ["🌟", "🌙", "⭐", "🔴"], correct: 1},
+{text: "¿Qué número sigue? 10, 20, 30, 40, ___", options: ["45", "50", "55", "60"], correct: 1},
+{text: "¿Cuál NO es un animal? Perro, Gato, Mesa, Pez", options: ["Perro", "Gato", "Mesa", "Pez"], correct: 2},
+{text: "¿Qué figura sigue? 🔴🔵🟢 🔴🔵🟢 🔴🔵 ___", options: ["🔴", "🔵", "🟢", "🟡"], correct: 2},
+{text: "¿Qué número sigue? 3, 6, 9, 12, ___", options: ["13", "14", "15", "18"], correct: 2},
+{text: "¿Cuál NO es una fruta? Mango, Libro, Uva, Piña", options: ["Mango", "Libro", "Uva", "Piña"], correct: 1},
+{text: "¿Qué figura sigue? ▲ ▲ ■ ▲ ▲ ■ ▲ ▲ ___", options: ["▲", "■", "●", "★"], correct: 1},
+{text: "¿Qué número falta? 2, ___, 6, 8, 10", options: ["3", "4", "5", "7"], correct: 1},
+{text: "¿Cuál es diferente? Rojo, Azul, Verde, Perro", options: ["Rojo", "Azul", "Verde", "Perro"], correct: 3},
+{text: "Si hay 4 niños y llegan 2 más, ¿cuántos hay ahora?", options: ["5", "6", "7", "8"], correct: 1},
+{text: "¿Qué número sigue? 100, 90, 80, 70, ___", options: ["55", "60", "65", "50"], correct: 1},
+{text: "¿Qué figura viene después? ● ●● ●●● ___", options: ["●●", "●●●●", "●●●", "●●●●●"], correct: 1},
 
-// Matemáticas básicas (20)
+// Matemáticas básicas progresivas (20)
 {text: "5 + 3 = ?", options: ["7", "8", "9", "10"], correct: 1},
-{text: "10 - 4 = ?", options: ["5", "6", "7", "8"], correct: 1},
-{text: "2 + 7 = ?", options: ["8", "9", "10", "11"], correct: 1},
 {text: "15 - 6 = ?", options: ["8", "9", "10", "11"], correct: 1},
-{text: "4 + 5 = ?", options: ["8", "9", "10", "11"], correct: 1},
-{text: "12 - 5 = ?", options: ["6", "7", "8", "9"], correct: 1},
-{text: "3 + 6 = ?", options: ["8", "9", "10", "11"], correct: 1},
-{text: "8 - 3 = ?", options: ["4", "5", "6", "7"], correct: 1},
-{text: "7 + 2 = ?", options: ["8", "9", "10", "11"], correct: 1},
-{text: "20 - 8 = ?", options: ["11", "12", "13", "14"], correct: 1},
-{text: "6 + 4 = ?", options: ["9", "10", "11", "12"], correct: 1},
-{text: "18 - 9 = ?", options: ["8", "9", "10", "11"], correct: 1},
-{text: "9 + 1 = ?", options: ["9", "10", "11", "12"], correct: 1},
-{text: "14 - 7 = ?", options: ["6", "7", "8", "9"], correct: 1},
-{text: "5 + 5 = ?", options: ["9", "10", "11", "12"], correct: 1},
+{text: "4 × 2 = ?", options: ["6", "7", "8", "9"], correct: 2},
+{text: "12 ÷ 3 = ?", options: ["3", "4", "5", "6"], correct: 1},
+{text: "25 + 13 = ?", options: ["36", "37", "38", "39"], correct: 2},
+{text: "30 - 14 = ?", options: ["14", "15", "16", "17"], correct: 2},
+{text: "3 × 5 = ?", options: ["13", "14", "15", "16"], correct: 2},
+{text: "18 ÷ 2 = ?", options: ["7", "8", "9", "10"], correct: 2},
+{text: "Si tengo 3 cajas con 4 manzanas cada una, ¿cuántas manzanas hay en total?", options: ["10", "11", "12", "13"], correct: 2},
+{text: "20 + 15 = ?", options: ["33", "34", "35", "36"], correct: 2},
+{text: "Un cuadrado tiene 4 lados iguales de 3 cm. ¿Cuánto mide su perímetro?", options: ["10 cm", "12 cm", "14 cm", "16 cm"], correct: 1},
+{text: "50 - 23 = ?", options: ["25", "26", "27", "28"], correct: 2},
+{text: "6 × 4 = ?", options: ["20", "22", "24", "26"], correct: 2},
+{text: "24 ÷ 4 = ?", options: ["4", "5", "6", "7"], correct: 2},
+{text: "María tiene 7 dulces. Regala 3 y recibe 5. ¿Cuántos tiene?", options: ["7", "8", "9", "10"], correct: 2},
 {text: "16 - 8 = ?", options: ["6", "7", "8", "9"], correct: 2},
-{text: "8 + 4 = ?", options: ["11", "12", "13", "14"], correct: 1},
-{text: "13 - 6 = ?", options: ["6", "7", "8", "9"], correct: 1},
-{text: "11 + 3 = ?", options: ["13", "14", "15", "16"], correct: 1},
-{text: "19 - 10 = ?", options: ["8", "9", "10", "11"], correct: 1},
+{text: "9 × 3 = ?", options: ["24", "25", "26", "27"], correct: 3},
+{text: "¿Cuánto es la mitad de 40?", options: ["15", "18", "20", "22"], correct: 2},
+{text: "En una clase hay 28 estudiantes. Si salen 7, ¿cuántos quedan?", options: ["19", "20", "21", "22"], correct: 2},
+{text: "5 × 6 = ?", options: ["28", "29", "30", "31"], correct: 2},
 
-// Vocabulario y lógica simple (20)
-{text: "¿Cuál es el opuesto de 'grande'?", options: ["pequeño", "alto", "ancho", "largo"], correct: 0},
-{text: "El perro ladra, el gato...", options: ["maulla", "ladra", "vuela", "nada"], correct: 0},
-{text: "¿Qué usamos para cortar papel?", options: ["tenedor", "cuchillo", "tijeras", "cuchara"], correct: 2},
-{text: "¿Cuántos días tiene una semana?", options: ["5", "6", "7", "8"], correct: 2},
-{text: "¿Qué animal dice 'moo'?", options: ["Perro", "Gato", "Vaca", "Caballo"], correct: 2},
-{text: "¿Cuál es el opuesto de 'arriba'?", options: ["abajo", "izquierda", "derecha", "centro"], correct: 0},
-{text: "El sol sale por el...", options: ["norte", "sur", "este", "oeste"], correct: 2},
-{text: "¿Qué usamos para escribir?", options: ["sartén", "lápiz", "plato", "vaso"], correct: 1},
+// Vocabulario, analogías y lógica (20)
+{text: "Pez es a agua como pájaro es a:", options: ["tierra", "aire", "fuego", "arena"], correct: 1},
+{text: "¿Cuál es el opuesto de 'pesado'?", options: ["gordo", "liviano", "lento", "fácil"], correct: 1},
+{text: "Libro es a leer como música es a:", options: ["ver", "tocar", "escuchar", "oler"], correct: 2},
+{text: "¿Cuántos días hay en una semana?", options: ["5", "6", "7", "8"], correct: 2},
+{text: "Si hoy es martes, ¿qué día es mañana?", options: ["lunes", "miércoles", "jueves", "viernes"], correct: 1},
+{text: "Maestro es a escuela como médico es a:", options: ["farmacia", "clínica", "hospital", "laboratorio"], correct: 2},
+{text: "¿Cuál es el opuesto de 'oscuro'?", options: ["negro", "claro", "gris", "morado"], correct: 1},
 {text: "¿Cuántos meses tiene un año?", options: ["10", "11", "12", "13"], correct: 2},
-{text: "¿Qué animal vuela?", options: ["Perro", "Gato", "Pájaro", "Pez"], correct: 2},
-{text: "¿Cuál es el opuesto de 'frío'?", options: ["templado", "caliente", "húmedo", "seco"], correct: 1},
-{text: "La leche viene de la...", options: ["manzana", "vaca", "zanahoria", "uva"], correct: 1},
-{text: "¿Qué usamos para cepillarnos los dientes?", options: ["peine", "cepillo de dientes", "toalla", "jabón"], correct: 1},
+{text: "Cuchara es a sopa como tenedor es a:", options: ["arroz", "leche", "ensalada", "jugo"], correct: 2},
+{text: "¿Cuál pertenece al grupo? Tigre, León, Elefante, Avión", options: ["Tigre", "León", "Elefante", "Avión"], correct: 3},
+{text: "¿Cuál es el opuesto de 'comenzar'?", options: ["seguir", "continuar", "terminar", "repetir"], correct: 2},
+{text: "Mañana, tarde, ___, noche. ¿Qué falta?", options: ["día", "mediodía", "amanecer", "anochecer"], correct: 1},
+{text: "Zapato es a pie como guante es a:", options: ["cabeza", "mano", "codo", "rodilla"], correct: 1},
+{text: "¿Cuál es el animal más grande? Hormiga, Perro, Elefante, Gato", options: ["Hormiga", "Perro", "Elefante", "Gato"], correct: 2},
+{text: "¿Cuántas horas tiene un día?", options: ["12", "18", "24", "36"], correct: 2},
+{text: "Flor es a jardín como pez es a:", options: ["cielo", "tierra", "mar", "desierto"], correct: 2},
+{text: "¿Cuál NO es un color? Azul, Rojo, Cuadrado, Verde", options: ["Azul", "Rojo", "Cuadrado", "Verde"], correct: 2},
 {text: "¿Cuántas estaciones tiene el año?", options: ["2", "3", "4", "5"], correct: 2},
-{text: "¿Qué animal nada?", options: ["Gallina", "Vaca", "Pez", "Caballo"], correct: 2},
-{text: "¿Cuál es el opuesto de 'día'?", options: ["tarde", "noche", "mañana", "mediodía"], correct: 1},
-{text: "Las flores necesitan... para crecer", options: ["agua", "piedras", "plástico", "papel"], correct: 0},
-{text: "¿Qué usamos para dormir?", options: ["silla", "mesa", "cama", "puerta"], correct: 2},
-{text: "¿Cuántos colores tiene el arcoíris?", options: ["5", "6", "7", "8"], correct: 2},
-{text: "¿Qué animal tiene trompa?", options: ["León", "Elefante", "Tigre", "Oso"], correct: 1},
+{text: "El sol sale por la ___ y se oculta por el oeste.", options: ["norte", "sur", "este", "arriba"], correct: 2},
+{text: "Hambre es a comer como sed es a:", options: ["dormir", "beber", "correr", "jugar"], correct: 1},
 
-// Conceptos espaciales básicos (20)
+// Razonamiento espacial y conceptual (20)
 {text: "¿Cuántos lados tiene un triángulo?", options: ["2", "3", "4", "5"], correct: 1},
-{text: "¿De qué color es el cielo despejado?", options: ["azul", "rojo", "verde", "amarillo"], correct: 0},
-{text: "¿Cuántos dedos tiene una mano?", options: ["4", "5", "6", "10"], correct: 1},
-{text: "¿Qué forma tiene una pelota?", options: ["Cuadrada", "Triangular", "Redonda", "Plana"], correct: 2},
-{text: "¿Cuántas ruedas tiene un auto típico?", options: ["2", "3", "4", "6"], correct: 2},
 {text: "¿Cuántos lados tiene un cuadrado?", options: ["3", "4", "5", "6"], correct: 1},
-{text: "¿De qué color es la hierba?", options: ["roja", "azul", "verde", "amarilla"], correct: 2},
-{text: "¿Cuántos ojos tiene una persona?", options: ["1", "2", "3", "4"], correct: 1},
-{text: "¿Qué forma tiene una caja de regalo típica?", options: ["Redonda", "Cuadrada", "Triangular", "Ovalada"], correct: 1},
-{text: "¿Cuántas patas tiene una mesa típica?", options: ["2", "3", "4", "5"], correct: 2},
-{text: "¿Cuántos lados tiene un círculo?", options: ["0", "1", "2", "3"], correct: 0},
-{text: "¿De qué color es una banana madura?", options: ["verde", "amarilla", "roja", "morada"], correct: 1},
-{text: "¿Cuántas orejas tiene una persona?", options: ["1", "2", "3", "4"], correct: 1},
-{text: "¿Qué forma tiene una pizza?", options: ["Cuadrada", "Triangular", "Redonda", "Rectangular"], correct: 2},
-{text: "¿Cuántas letras tiene la palabra 'casa'?", options: ["3", "4", "5", "6"], correct: 1},
-{text: "¿Cuántos lados tiene un rectángulo?", options: ["3", "4", "5", "6"], correct: 1},
-{text: "¿De qué color es la nieve?", options: ["azul", "blanca", "gris", "negra"], correct: 1},
-{text: "¿Cuántas piernas tiene una silla típica?", options: ["2", "3", "4", "5"], correct: 2},
-{text: "¿Qué forma tiene una señal de stop?", options: ["Circular", "Triangular", "Cuadrada", "Octagonal"], correct: 3},
-{text: "¿Cuántos días tiene febrero en año bisiesto?", options: ["28", "29", "30", "31"], correct: 1},
+{text: "¿Cuántas esquinas tiene un rectángulo?", options: ["2", "3", "4", "5"], correct: 2},
+{text: "Si cortas un círculo por la mitad, obtienes dos figuras llamadas:", options: ["triángulos", "cuadrados", "semicírculos", "rectángulos"], correct: 2},
+{text: "¿Cuántas ruedas tienen 3 bicicletas?", options: ["4", "5", "6", "7"], correct: 2},
+{text: "¿Cuántas patas tienen 2 perros?", options: ["6", "7", "8", "9"], correct: 2},
+{text: "Un reloj marca las 3:00. ¿Qué ángulo forman las manecillas?", options: ["90°", "120°", "180°", "360°"], correct: 0},
+{text: "¿Cuántas caras tiene un cubo?", options: ["4", "5", "6", "8"], correct: 2},
+{text: "Si un tren tiene 5 vagones y cada uno tiene 2 ventanas, ¿cuántas ventanas hay?", options: ["7", "8", "10", "12"], correct: 2},
+{text: "¿Cuántas letras tiene la palabra 'COLEGIO'?", options: ["5", "6", "7", "8"], correct: 2},
+{text: "Hay 3 cajas. En cada caja hay 3 pelotas. ¿Cuántas pelotas hay en total?", options: ["6", "7", "8", "9"], correct: 3},
+{text: "¿Qué número es mayor? 45, 54, 44, 55", options: ["45", "54", "44", "55"], correct: 3},
+{text: "Si sumo los dedos de ambas manos, obtengo:", options: ["8", "9", "10", "12"], correct: 2},
+{text: "¿Cuántos vértices tiene un triángulo?", options: ["2", "3", "4", "5"], correct: 1},
+{text: "En una docena hay:", options: ["10", "11", "12", "13"], correct: 2},
+{text: "¿Cuál es el número que está entre 7 y 9?", options: ["6", "7", "8", "10"], correct: 2},
+{text: "¿Cuántos minutos tiene media hora?", options: ["15", "20", "30", "45"], correct: 2},
+{text: "Ana tiene más caramelos que Luis. Luis tiene más que Pedro. ¿Quién tiene menos?", options: ["Ana", "Luis", "Pedro", "Todos igual"], correct: 2},
+{text: "¿Cuántas semanas hay en un mes (aprox.)?", options: ["2", "3", "4", "5"], correct: 2},
+{text: "Si divido 20 entre 4, el resultado es:", options: ["3", "4", "5", "6"], correct: 2},
 
-// Razonamiento lógico básico (20)
-{text: "Si tengo 3 manzanas y como 1, ¿cuántas me quedan?", options: ["1", "2", "3", "4"], correct: 1},
-{text: "Pedro es más alto que Juan. Juan es más alto que Luis. ¿Quién es el más alto?", options: ["Pedro", "Juan", "Luis", "Iguales"], correct: 0},
-{text: "Todos los gatos maullan. ¿Los perros maullan?", options: ["Sí", "No", "A veces", "Siempre"], correct: 1},
-{text: "Si hoy es lunes, mañana será...", options: ["domingo", "martes", "miércoles", "jueves"], correct: 1},
-{text: "María tiene 5 años. Su hermano tiene 3 años más. ¿Cuántos años tiene el hermano?", options: ["7", "8", "9", "10"], correct: 1},
-{text: "Un tren tiene 3 vagones. En cada vagón hay 4 personas. ¿Cuántas personas hay en total?", options: ["10", "11", "12", "13"], correct: 2},
-{text: "Si 2 + 3 = 5, entonces 3 + 2 = ?", options: ["4", "5", "6", "7"], correct: 1},
-{text: "Ana tiene 4 globos. Se le vuelan 2. ¿Cuántos tiene ahora?", options: ["1", "2", "3", "4"], correct: 1},
-{text: "Todos los pájaros vuelan. Los pingüinos son pájaros. ¿Los pingüinos vuelan?", options: ["Sí", "No", "A veces", "No se sabe"], correct: 1},
-{text: "Si hoy es mi cumpleaños, ayer fue...", options: ["hoy", "ayer", "mañana", "anteayer"], correct: 3},
-{text: "Hay 6 sillas y 4 personas. ¿Sobran sillas?", options: ["Sí, 1", "Sí, 2", "No", "Faltan"], correct: 1},
-{text: "Carlos tiene 8 lápices. Regala 3. ¿Cuántos le quedan?", options: ["4", "5", "6", "7"], correct: 1},
-{text: "Si A = 1, B = 2, C = 3, entonces D = ?", options: ["3", "4", "5", "6"], correct: 1},
-{text: "Una docena son 12. Media docena son...", options: ["5", "6", "7", "8"], correct: 1},
-{text: "Lucía tiene el doble de canicas que Pedro. Pedro tiene 3. ¿Cuántas tiene Lucía?", options: ["5", "6", "7", "8"], correct: 1},
-{text: "Si es de noche y sale el sol, se hace...", options: ["tarde", "noche", "día", "amanecer"], correct: 2},
-{text: "Hay 10 dedos en 2 manos. ¿Cuántos dedos hay en 1 mano?", options: ["4", "5", "6", "10"], correct: 1},
-{text: "Si 5 > 3 y 3 > 1, entonces 5 ___ 1", options: ["<", ">", "=", "no se"], correct: 1},
-{text: "Un cuarto de hora son...", options: ["10 min", "15 min", "20 min", "30 min"], correct: 1},
-{text: "Si tengo 10 monedas y pierdo la mitad, ¿cuántas me quedan?", options: ["4", "5", "6", "7"], correct: 1}
+// Razonamiento lógico y comprensión (20)
+{text: "Pedro es más alto que Juan. Juan es más alto que Luis. ¿Quién es el más bajo?", options: ["Pedro", "Juan", "Luis", "Ninguno"], correct: 2},
+{text: "Todos los gatos tienen cola. Firulais es un gato. Por tanto, Firulais:", options: ["no tiene cola", "tiene cola", "tal vez tiene cola", "no se sabe"], correct: 1},
+{text: "Si hoy llueve, el suelo se moja. El suelo está seco. Por tanto:", options: ["hoy llovió", "hoy no llovió", "tal vez llovió", "siempre llueve"], correct: 1},
+{text: "Ana tiene 4 años más que Carlos. Carlos tiene 8 años. ¿Cuántos años tiene Ana?", options: ["10", "11", "12", "13"], correct: 2},
+{text: "¿Qué es un sinónimo de 'feliz'?", options: ["triste", "enojado", "contento", "asustado"], correct: 2},
+{text: "Un cuarto de 20 es:", options: ["4", "5", "6", "8"], correct: 1},
+{text: "Si 2 gallinas ponen 2 huevos en 2 días, ¿cuántos huevos pone 1 gallina en 1 día?", options: ["1/2", "1", "2", "4"], correct: 0},
+{text: "¿Cuál es el doble de 15?", options: ["25", "28", "30", "35"], correct: 2},
+{text: "Hay 5 niños en fila. Pedro está en el medio. ¿Cuántos niños hay delante de él?", options: ["1", "2", "3", "4"], correct: 1},
+{text: "¿Qué es un antónimo de 'rápido'?", options: ["veloz", "ágil", "lento", "fuerte"], correct: 2},
+{text: "Si A viene antes que B y B viene antes que C, ¿cuál viene primero?", options: ["A", "B", "C", "Todos igual"], correct: 0},
+{text: "¿Cuánto es el triple de 7?", options: ["14", "18", "21", "24"], correct: 2},
+{text: "Una tienda tiene 30 lápices. Vende 12. ¿Cuántos le quedan?", options: ["16", "17", "18", "19"], correct: 2},
+{text: "¿Cuál es el número que falta? 8, 16, ___, 32", options: ["20", "22", "24", "26"], correct: 2},
+{text: "Todos los peces nadan. El delfín nada. ¿El delfín es un pez?", options: ["Sí, siempre", "No necesariamente", "Nunca", "Siempre es pez"], correct: 1},
+{text: "¿Cuántos dedos tiene una persona en total (manos y pies)?", options: ["15", "18", "20", "22"], correct: 2},
+{text: "Si hay 3 filas de sillas con 4 sillas cada fila, ¿cuántas sillas hay?", options: ["10", "11", "12", "13"], correct: 2},
+{text: "¿Cuál es el número más pequeño? 13, 31, 21, 12", options: ["13", "31", "21", "12"], correct: 3},
+{text: "Un año tiene 12 meses. ¿Cuántos meses hay en 2 años?", options: ["18", "20", "24", "28"], correct: 2},
+{text: "¿Qué es mayor: la mitad de 50 o el doble de 10?", options: ["La mitad de 50", "El doble de 10", "Son iguales", "No se puede saber"], correct: 2}
 ];
 
 const iqQuestionsTeen = [
@@ -4247,26 +4425,26 @@ const iqQuestionsAdult = [
 {text: "Si un octaedro regular tiene 8 caras triangulares, ¿cuántas aristas tiene?", options: ["8", "12", "16", "20"], correct: 1},
 
 // Pensamiento crítico (20)
-{text: "¿Qué es falacia 'ad hominem'?", options: ["Atacar a la persona", "Apelar a la autoridad", "Falsa causa", "Generalización apresurada"], correct: 0},
-{text: "La falacia 'post hoc ergo propter hoc' consiste en:", options: ["Confundir correlación con causalidad", "Circularidad", "Falsa dicotomía", "Apelación a la ignorancia"], correct: 0},
-{text: "¿Qué es 'ocam's razor'?", options: ["Principio de parcimonia", "Método experimental", "Falacia lógica", "Teorema matemático"], correct: 0},
-{text: "Un argumento 'a priori' es aquel que:", options: ["No depende de la experiencia", "Se basa en observación", "Es empírico", "Es inductivo"], correct: 0},
-{text: "¿Qué es 'sesgo de confirmación'?", options: ["Buscar solo evidencia favorable", "Confirmar hipótesis", "Verificar datos", "Validar experimentos"], correct: 0},
-{text: "La falacia 'falso dilema' o 'falsa dicotomía' presenta:", options: ["Dos opciones como únicas posibles", "Múltiples opciones", "Una solución óptima", "Ninguna opción"], correct: 0},
-{text: "¿Qué es 'razonamiento deductivo'?", options: ["De general a particular", "De particular a general", "Por analogía", "Por causalidad"], correct: 0},
-{text: "El 'principio de no contradicción' establece que:", options: ["Algo no puede ser y no ser al mismo tiempo", "Todo cambia", "Nada es absoluto", "La verdad es relativa"], correct: 0},
-{text: "¿Qué es 'apelación a la autoridad'?", options: ["Falacia de usar autoridad como prueba", "Citar expertos válidamente", "Usar datos científicos", "Referenciar fuentes"], correct: 0},
-{text: "Un argumento 'circular' es aquel que:", options: ["Asume lo que quiere probar", "Tiene forma circular", "Es completo", "Es válido"], correct: 0},
-{text: "¿Qué es 'escéptico' en filosofía?", options: ["Quién duda del conocimiento", "Quién acepta todo", "Quién niega todo", "Quién no opina"], correct: 0},
-{text: "La 'falacia genética' consiste en:", options: ["Juzgar por el origen", "Usar genética", "Argumentar biológicamente", "Evolucionismo"], correct: 0},
-{text: "¿Qué es 'parsimonia' en teoría científica?", options: ["Simplicidad explicativa", "Complejidad", "Precisión", "Exactitud"], correct: 0},
-{text: "El 'principio de falsabilidad' de Popper dice que:", options: ["Una teoría debe poder refutarse", "Toda teoría es falsa", "Las teorías son verdaderas", "No hay verdades"], correct: 0},
-{text: "¿Qué es 'reduccionismo'?", options: ["Explicar todo por sus partes", "Simplificar", "Reducir tamaño", "Minimizar"], correct: 0},
-{text: "La 'falacia de la pendiente resbaladiza' argumenta que:", options: ["Un pequeño paso lleva a extremos", "Hay pendientes peligrosas", "Todo es gradual", "Los extremos son malos"], correct: 0},
-{text: "¿Qué es 'doxa' en contraste con 'episteme'?", options: ["Opinión vs conocimiento", "Fe vs razón", "Sensación vs percepción", "Creencia vs duda"], correct: 0},
-{text: "El 'principio de identidad' establece que:", options: ["Todo es idéntico a sí mismo", "Todo cambia", "Nada permanece", "La identidad es ilusoria"], correct: 0},
-{text: "¿Qué es 'falacia de composición'?", options: ["Atribuir propiedades del todo a las partes", "Sumar partes", "Componer argumentos", "Analizar componentes"], correct: 0},
-{text: "El 'método hipotético-deductivo' implica:", options: ["Probar hipótesis deductivamente", "Solo inducción", "Solo deducción", "Observación pura"], correct: 0}
+{text: "La falacia 'ad hominem' consiste en:", options: ["Atacar a la persona en vez del argumento", "Apelar a la autoridad como única prueba", "Asumir que correlación implica causalidad", "Presentar dos opciones como las únicas posibles"], correct: 0},
+{text: "La falacia 'post hoc ergo propter hoc' se comete al:", options: ["Circular en el argumento", "Asumir que porque B siguió a A, A causó B", "Generalizar desde pocos casos", "Apelar a las emociones"], correct: 1},
+{text: "El principio de la Navaja de Occam o 'parsimonia' indica que:", options: ["Toda teoría es falsa hasta probarse", "En igualdad de condiciones, la explicación más simple es preferible", "Los hechos deben confirmarse dos veces", "Ninguna teoría puede considerarse definitiva"], correct: 1},
+{text: "¿Cuál de los siguientes es un ejemplo de razonamiento inductivo?", options: ["Todos los humanos son mortales; Sócrates es humano; por tanto, muere.", "He observado 200 cuervos negros; por tanto, todos los cuervos son negros.", "Si P entonces Q; P ocurrió; por tanto Q.", "Un teorema se deduce de axiomas aceptados."], correct: 1},
+{text: "El 'sesgo de confirmación' describe la tendencia a:", options: ["Rechazar toda evidencia nueva", "Buscar y valorar solo evidencia que confirma nuestras creencias previas", "Confirmar hipótesis científicas antes de publicarlas", "Verificar datos experimentales con pruebas repetidas"], correct: 1},
+{text: "La falacia del 'falso dilema' se produce cuando:", options: ["Se presentan argumentos circulares", "Se generaliza apresuradamente", "Se reducen opciones complejas a solo dos alternativas", "Se apela a la tradición para justificar una postura"], correct: 2},
+{text: "El razonamiento deductivo válido garantiza que:", options: ["Las premisas son verdaderas", "Si las premisas son verdaderas, la conclusión necesariamente lo es", "La conclusión amplía el conocimiento más allá de las premisas", "Se parte de observaciones particulares hacia lo general"], correct: 1},
+{text: "El principio de no contradicción de Aristóteles establece que:", options: ["Toda afirmación tiene una contraparte válida", "Algo no puede ser verdadero y falso al mismo tiempo y en el mismo sentido", "Las contradicciones impulsan el avance del conocimiento", "Todo argumento contiene alguna contradicción implícita"], correct: 1},
+{text: "La 'apelación a la autoridad' es una falacia cuando:", options: ["Se cita un experto reconocido en el área relevante del debate", "Se usa la opinión de una celebridad fuera de su área de experticia como argumento definitivo", "Se referencian fuentes académicas revisadas por pares", "Se incluyen datos estadísticos de organismos oficiales"], correct: 1},
+{text: "Un argumento circular (petición de principio) ocurre cuando:", options: ["El argumento gira en torno a un solo tema", "La premisa asume implícitamente lo que se quiere demostrar en la conclusión", "La conclusión es más amplia que las premisas", "El argumento tiene varias etapas lógicas encadenadas"], correct: 1},
+{text: "La 'falacia genética' consiste en:", options: ["Evaluar una idea basándose únicamente en su origen o en quién la formuló", "Usar argumentos biológicos para justificar conductas sociales", "Apelar a la evolución para rechazar teorías modernas", "Confundir causa genética con causa ambiental"], correct: 0},
+{text: "El principio de falsabilidad de Karl Popper requiere que una teoría científica:", options: ["Sea verificada por una mayoría de científicos", "Pueda refutarse mediante evidencia empírica en principio", "Explique todos los fenómenos posibles sin excepción", "Sea aceptada durante al menos una década sin objeciones"], correct: 1},
+{text: "El 'reduccionismo' como enfoque metodológico propone:", options: ["Evitar la simplificación en el análisis de fenómenos complejos", "Explicar fenómenos complejos descomponiéndolos en sus partes más simples", "Reducir el número de teorías científicas disponibles", "Minimizar el impacto ético de los experimentos científicos"], correct: 1},
+{text: "La 'falacia de la pendiente resbaladiza' consiste en afirmar que:", options: ["Un argumento es resbaladizo porque nadie lo puede sostener", "Cualquier inclinación en datos estadísticos es prueba de tendencia", "Aceptar un pequeño paso inevitablemente conducirá a consecuencias extremas", "Todo argumento gradual es inválido por definición"], correct: 2},
+{text: "En epistemología, 'doxa' se distingue de 'episteme' porque:", options: ["La doxa es conocimiento científico; la episteme es intuición", "La doxa es opinión o creencia no fundamentada; la episteme es conocimiento justificado", "La doxa es certeza absoluta; la episteme es probabilística", "La doxa proviene de la experiencia directa; la episteme del razonamiento puro"], correct: 1},
+{text: "El 'principio de identidad' en lógica clásica afirma que:", options: ["Toda entidad es idéntica a sí misma (A = A)", "Dos objetos con las mismas propiedades son el mismo objeto", "La identidad es una construcción cultural relativa", "Nada permanece idéntico a sí mismo en el tiempo"], correct: 0},
+{text: "La 'falacia de composición' se comete al:", options: ["Descomponer el argumento en sus partes para analizarlo", "Suponer que lo verdadero de las partes necesariamente es verdadero del todo", "Argumentar que el conjunto es más importante que sus partes", "Combinar premisas de distintos argumentos en uno solo"], correct: 1},
+{text: "El 'método hipotético-deductivo' en ciencia implica:", options: ["Observar fenómenos sin hipótesis previas para no sesgar los resultados", "Formular una hipótesis y deducir predicciones que se contrastan empíricamente", "Aplicar la deducción lógica pura sin recurrir a la experiencia", "Aceptar una hipótesis si no hay evidencia en su contra"], correct: 1},
+{text: "El 'sesgo de anclaje' describe la tendencia a:", options: ["Juzgar basándose en la popularidad de una idea", "Depender excesivamente del primer dato recibido al tomar decisiones", "Confiar solo en fuentes de autoridad reconocida", "Preferir la información más reciente sobre la más relevante"], correct: 1},
+{text: "Un argumento 'a priori' es aquel cuya validez:", options: ["Se determina exclusivamente por observación empírica y experimentos", "No depende de la experiencia, sino solo de la razón o definiciones", "Requiere datos estadísticos para ser evaluado", "Depende del contexto histórico en que fue formulado"], correct: 1}
 ];
 
 // PREGUNTAS EMPRENDEDOR (100 preguntas)
@@ -4846,28 +5024,34 @@ return {name: c.name, score: Math.round(score)};
 
 careerScores.sort((a, b) => b.score - a.score);
 
-// CORREGIDO: Asegurar que todas las barras muestren el porcentaje
+// CORREGIDO: Construir HTML de barras vocacionales de una vez
 const barsContainer = document.getElementById('vocational-bars');
-barsContainer.innerHTML = '<h4 style="margin-bottom: 20px; color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">📊 Compatibilidad con Carreras:</h4>';
+let vocBarsHTML = '<h4 style="margin-bottom: 20px; color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">📊 Compatibilidad con Carreras:</h4>';
 careerScores.slice(0, 5).forEach((career, index) => {
 const barClass = career.score >= 70 ? 'bar-high' : career.score >= 50 ? 'bar-medium' : 'bar-low';
 const emoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '✨';
-// Asegurar que el score mínimo sea 25% para que se vea la barra y el porcentaje
-const displayScore = Math.max(career.score, 25);
-barsContainer.innerHTML += `
-<div class="result-bar-item">
+const displayScore = Math.max(career.score, 30);
+vocBarsHTML += `
+<div class="result-bar-item" style="animation-delay:${index * 0.1}s">
 <div class="result-bar-header">
 <span class="result-bar-name">${emoji} ${career.name}</span>
 <span class="result-bar-percentage">${career.score}%</span>
 </div>
 <div class="result-bar-visual">
-<div class="result-bar-fill ${barClass}" style="width: ${displayScore}%">
+<div class="result-bar-fill ${barClass}" data-target="${displayScore}" style="width: 0%">
 ${career.score}%
 </div>
 </div>
 </div>
 `;
 });
+barsContainer.innerHTML = vocBarsHTML;
+setTimeout(() => {
+  document.querySelectorAll('#vocational-bars .result-bar-fill').forEach((bar, i) => {
+    const target = bar.getAttribute('data-target');
+    setTimeout(() => { bar.style.transition = 'width 1.5s cubic-bezier(0.4,0,0.2,1)'; bar.style.width = target + '%'; }, i * 80);
+  });
+}, 150);
 
 const ctx = document.getElementById('careersChart').getContext('2d');
 new Chart(ctx, {
@@ -5107,28 +5291,28 @@ gender: b.gender
 
 businessScores.sort((a, b) => b.score - a.score);
 
-// CORREGIDO: Asegurar que todas las barras muestren el porcentaje
+// CORREGIDO: Construir HTML completo de una vez para asegurar que todas las barras aparezcan
 const barsContainer = document.getElementById('entrepreneur-bars');
-barsContainer.innerHTML = '<h4 style="margin-bottom: 20px; color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">📊 Top 5 Emprendimientos Recomendados para ti:</h4>';
+let barsHTML = '<h4 style="margin-bottom: 20px; color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">📊 Top 5 Emprendimientos Recomendados para ti:</h4>';
 
 // Tomar exactamente los 5 mejores negocios
 const top5Businesses = businessScores.slice(0, 5);
 
 top5Businesses.forEach((business, index) => {
-// Asegurar que el score mínimo sea 25% para que se vea la barra y el porcentaje
-const displayScore = Math.max(business.score, 25);
+// Asegurar que el score mínimo sea 30% para que se vea la barra y el porcentaje
+const displayScore = Math.max(business.score, 30);
 const barClass = business.score >= 70 ? 'bar-high' : business.score >= 50 ? 'bar-medium' : 'bar-low';
 const emoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '✨';
 const genderIcon = business.gender === 'femenino' ? '👩' : business.gender === 'masculino' ? '👨' : '👤';
 
-barsContainer.innerHTML += `
-<div class="result-bar-item">
+barsHTML += `
+<div class="result-bar-item" style="animation-delay:${index * 0.1}s">
 <div class="result-bar-header">
 <span class="result-bar-name">${emoji} ${genderIcon} ${business.name}</span>
 <span class="result-bar-percentage">${business.score}%</span>
 </div>
 <div class="result-bar-visual">
-<div class="result-bar-fill ${barClass}" style="width: ${displayScore}%">
+<div class="result-bar-fill ${barClass}" data-target="${displayScore}" style="width: 0%">
 ${business.score}%
 </div>
 </div>
@@ -5138,6 +5322,16 @@ ${business.description}
 </div>
 `;
 });
+
+barsContainer.innerHTML = barsHTML;
+
+// Animate bars after a small delay to ensure DOM is ready
+setTimeout(() => {
+  document.querySelectorAll('#entrepreneur-bars .result-bar-fill').forEach((bar, i) => {
+    const target = bar.getAttribute('data-target');
+    setTimeout(() => { bar.style.transition = 'width 1.5s cubic-bezier(0.4,0,0.2,1)'; bar.style.width = target + '%'; }, i * 80);
+  });
+}, 150);
 
 const ctx = document.getElementById('entrepreneurChart').getContext('2d');
 new Chart(ctx, {
@@ -5412,8 +5606,59 @@ document.getElementById('exit-modal').classList.remove('active');
 
 function exitToHome() {
 closeModal();
-restartTest();
+// If user has already registered, go to test selection; otherwise go to terms
+if (userData && userData.name) {
+  // Reset test state but keep user data
+  currentTest = '';
+  currentQuestion = 0;
+  answers = [];
+  questions = [];
+  testResults = {};
+  document.querySelectorAll('.test-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('selected-test').value = '';
+  document.getElementById('btn-email').style.display = 'none';
+  ['careersChart', 'iqChart', 'entrepreneurChart'].forEach(id => {
+    const canvas = document.getElementById(id);
+    if (canvas) { try { const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); } catch(e) {} }
+  });
+  goToStep2();
+} else {
+  restartTest();
 }
+}
+
+/* ── Función del botón Salir global ── */
+function performExit() {
+  // Reset ALL state including user data
+  userData = null;
+  currentTest = '';
+  currentQuestion = 0;
+  answers = [];
+  questions = [];
+  testResults = {};
+  document.querySelectorAll('.test-card').forEach(c => c.classList.remove('selected', 'disabled'));
+  const sel = document.getElementById('selected-test');
+  if (sel) sel.value = '';
+  const emailBtn = document.getElementById('btn-email');
+  if (emailBtn) emailBtn.style.display = 'none';
+  const exitBtn = document.getElementById('exit-btn');
+  if (exitBtn) exitBtn.classList.remove('visible');
+  ['careersChart', 'iqChart', 'entrepreneurChart'].forEach(id => {
+    const canvas = document.getElementById(id);
+    if (canvas) { try { const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); } catch(e) {} }
+  });
+  // Clear form fields
+  ['user-name','user-age','user-email','user-gender'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const eduSel = document.getElementById('user-education');
+  if (eduSel) eduSel.value = '';
+  document.querySelectorAll('.gender-option').forEach(o => o.classList.remove('selected'));
+  // Always go back to the very beginning (terms & conditions)
+  goToStep0();
+}
+
 
 
 
@@ -5437,12 +5682,11 @@ restartTest();
   });
 
   const SPLASH_COLORS = [
-    'rgba(168,92,0,',    // amber deep
-    'rgba(196,117,0,',   // gold bright
-    'rgba(15,74,24,',    // forest green
-    'rgba(30,130,53,',   // green mid
-    'rgba(212,150,0,',   // golden yellow
-    'rgba(100,160,80,',  // light green
+    'rgba(196,117,0,',   // gold
+    'rgba(27,110,42,',   // forest green
+    'rgba(39,160,64,',   // bright green
+    'rgba(217,141,16,',  // amber warm
+    'rgba(255,215,0,',   // gold bright
   ];
 
   class SplashParticle {
@@ -5450,13 +5694,13 @@ restartTest();
     reset(init) {
       this.x  = Math.random() * canvas.width;
       this.y  = init ? Math.random() * canvas.height : canvas.height + 10;
-      this.vx = (Math.random() - .5) * 1.2;
-      this.vy = -(Math.random() * 1.4 + .4);
-      this.size = Math.random() * 4.5 + 1.2;
+      this.vx = (Math.random() - .5) * 1.0;
+      this.vy = -(Math.random() * 1.4 + 0.4);
+      this.size = Math.random() * 3.8 + 1.0;
       this.col  = SPLASH_COLORS[Math.floor(Math.random() * SPLASH_COLORS.length)];
-      this.alpha = Math.random() * .75 + .3;
+      this.alpha = Math.random() * 0.6 + 0.28;
       this.twinkle = Math.random() * Math.PI * 2;
-      this.twinkleSpeed = .03 + Math.random() * .05;
+      this.twinkleSpeed = .03 + Math.random() * .04;
     }
     update() {
       this.x += this.vx;
@@ -5466,7 +5710,7 @@ restartTest();
       if (this.x < -10 || this.x > canvas.width + 10) this.vx *= -1;
     }
     draw() {
-      const a = this.alpha * (.6 + .4 * Math.sin(this.twinkle));
+      const a = this.alpha * (.55 + .45 * Math.sin(this.twinkle));
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fillStyle = this.col + a + ')';
@@ -5478,15 +5722,15 @@ restartTest();
   let raf;
   function animateSplash() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Subtle lines between nearby particles
+    // Lines between nearby particles
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
         const d  = Math.hypot(dx, dy);
-        if (d < 140) {
-          ctx.strokeStyle = `rgba(168,100,0,${(1 - d/140) * .22})`;
-          ctx.lineWidth = 1.1;
+        if (d < 100) {
+          ctx.strokeStyle = `rgba(196,117,0,${(1 - d/100) * 0.18})`;
+          ctx.lineWidth = .8;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
@@ -5504,37 +5748,44 @@ restartTest();
   window._cancelSplashAnim = () => cancelAnimationFrame(raf);
 })();
 
-// ── Verificación personalizada con slider ──
+// ── Custom Robot Verification ──
 let splashVerified = false;
+let robotCheckInProgress = false;
 
-// ── Click/tap verification ──
-window.onCheckVerify = function() {
-  if (splashVerified) return;
-  splashVerified = true;
+function triggerRobotCheck(e) {
+  if (splashVerified || robotCheckInProgress) return;
+  robotCheckInProgress = true;
+  
+  const box = document.getElementById('robot-cb-box');
+  const spinner = document.getElementById('rc-spinner');
+  const check = document.getElementById('rc-check');
+  
+  // Show spinner
+  box.style.borderColor = 'var(--casm-green)';
+  spinner.style.display = 'block';
+  
+  setTimeout(() => {
+    // Show checkmark
+    spinner.style.display = 'none';
+    check.style.display = 'block';
+    box.style.background = '#F0FFF4';
+    box.style.borderColor = 'var(--casm-green)';
+    
+    splashVerified = true;
+    robotCheckInProgress = false;
+    
+    // Enable enter button
+    const btn = document.getElementById('splash-btn');
+    const icon = document.getElementById('splash-btn-icon');
+    const text = document.getElementById('splash-btn-text');
+    if (btn)  { btn.disabled = false; }
+    if (icon) { icon.textContent = '🔓'; }
+    if (text) { text.textContent = 'Ingresar a la Plataforma'; }
+  }, 1200);
+}
 
-  const box   = document.getElementById('custom-verify-box');
-  const ring  = document.getElementById('verify-ring');
-  const inner = document.getElementById('verify-inner');
-  const icon  = document.getElementById('verify-icon');
-  const title = document.getElementById('verify-title');
-  const sub   = document.getElementById('verify-sub');
-
-  if (box)   { box.classList.add('verified'); box.style.cursor = 'default'; }
-  if (ring)  { ring.classList.add('verified'); }
-  if (inner) { inner.classList.add('verified'); }
-  if (icon)  { icon.style.opacity = '1'; }
-  if (title) { title.textContent = '✅ Verificado correctamente'; title.style.color = '#0F4A18'; title.style.fontWeight = '800'; }
-  if (sub)   { sub.textContent = 'Puedes continuar'; sub.style.color = '#1E8235'; }
-
-  setTimeout(function() {
-    const btn  = document.getElementById('splash-btn');
-    const bico = document.getElementById('splash-btn-icon');
-    const btxt = document.getElementById('splash-btn-text');
-    if (btn)  btn.disabled = false;
-    if (bico) bico.textContent = '🔓';
-    if (btxt) btxt.textContent = 'Ingresar a la Plataforma';
-  }, 600);
-};
+function onSplashVerified() { splashVerified = true; }
+function onSplashExpired() { splashVerified = false; }
 
 function enterApp() {
   if (!splashVerified) return;
@@ -5594,7 +5845,7 @@ window.addEventListener('resize', () => { resize(); });
 
 document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 
-const COLORS = ['#0A2E0C', '#1B5E20', '#FF6F00', '#FF8F00', '#0F4A18', '#FFD700'];
+const COLORS = ['#1B6E2A', '#27A040', '#C47500', '#D98D10', '#0F4A18', '#FFD700'];
 
 function Particle() {
 this.reset();
@@ -5604,14 +5855,14 @@ this.y = Math.random() * canvas.height;
 Particle.prototype.reset = function() {
 this.x = Math.random() * canvas.width;
 this.y = Math.random() * canvas.height;
-this.baseSize = Math.random() * 3.5 + 0.5;
+this.baseSize = Math.random() * 5 + 1.5;
 this.size = this.baseSize;
-this.speedX = (Math.random() - 0.5) * 0.6;
-this.speedY = (Math.random() - 0.5) * 0.6;
-this.opacity = Math.random() * 0.4 + 0.08;
+this.speedX = (Math.random() - 0.5) * 1.0;
+this.speedY = (Math.random() - 0.5) * 1.0;
+this.opacity = Math.random() * 0.5 + 0.25;
 this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
 this.pulse = Math.random() * Math.PI * 2;
-this.pulseSpeed = 0.02 + Math.random() * 0.02;
+this.pulseSpeed = 0.025 + Math.random() * 0.025;
 };
 
 Particle.prototype.update = function() {
@@ -5643,7 +5894,7 @@ ctx.fill();
 ctx.globalAlpha = 1;
 };
 
-const N = window.innerWidth < 768 ? 55 : 90;
+const N = window.innerWidth < 768 ? 55 : 100;
 for (let i = 0; i < N; i++) particles.push(new Particle());
 
 let lastTime = 0;
@@ -5657,10 +5908,10 @@ for (let j = i + 1; j < particles.length; j++) {
 const dx = particles[i].x - particles[j].x;
 const dy = particles[i].y - particles[j].y;
 const dist = Math.sqrt(dx*dx + dy*dy);
-if (dist < 140) {
+if (dist < 110) {
 ctx.beginPath();
 ctx.strokeStyle = particles[i].color;
-ctx.globalAlpha = (1 - dist/140) * 0.18;
+ctx.globalAlpha = (1 - dist/110) * 0.22;
 ctx.lineWidth = 1.0;
 ctx.moveTo(particles[i].x, particles[i].y);
 ctx.lineTo(particles[j].x, particles[j].y);
@@ -5686,10 +5937,13 @@ if (bar) bar.style.width = progress + '%';
 // ====== RESULT BARS ANIMATION ON VIEW ======
 function animateResultBars() {
 const bars = document.querySelectorAll('.result-bar-fill');
-bars.forEach(bar => {
-const targetWidth = bar.style.width;
+bars.forEach((bar, i) => {
+const targetWidth = bar.getAttribute('data-target') || bar.style.width;
 bar.style.width = '0%';
-setTimeout(() => { bar.style.width = targetWidth; }, 100);
+setTimeout(() => {
+  bar.style.transition = 'width 1.5s cubic-bezier(0.4,0,0.2,1)';
+  bar.style.width = (typeof targetWidth === 'string' && targetWidth.includes('%')) ? targetWidth : targetWidth + '%';
+}, 100 + i * 80);
 });
 }
 
