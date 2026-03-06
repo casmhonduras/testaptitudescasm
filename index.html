@@ -78,7 +78,7 @@ box-sizing: border-box;
 }
 
 html, body {
-height: 100%;
+min-height: 100%;
 overflow-x: hidden;
 max-width: 100%;
 }
@@ -90,8 +90,6 @@ background-image: linear-gradient(to bottom, var(--bg-page) 0%, #ffffff 100%);
 color: var(--text-primary);
 line-height: 1.6;
 -webkit-text-size-adjust: 100%;
-display: flex;
-flex-direction: column;
 }
 
 /* HEADER COMPACTO Y DINÁMICO */
@@ -261,11 +259,8 @@ animation: bounceIn 0.6s;
 max-width: 900px;
 margin: 0 auto;
 padding: 20px 15px;
-width: 100%;
-flex: 1;
-display: flex;
-flex-direction: column;
 padding-top: 46px;
+width: 100%;
 transition: padding-top 0.4s ease;
 }
 
@@ -281,9 +276,7 @@ transform: translateY(12px);
 transition: opacity 0.4s ease, transform 0.4s ease;
 width: 100%;
 max-width: 100%;
-flex: 1;
 overflow-x: hidden;
-overflow-y: auto;
 }
 
 .section.active {
@@ -497,39 +490,34 @@ margin-bottom: 8px;
 }
 
 .confidentiality-banner {
-background: linear-gradient(135deg, rgba(27, 94, 32, 0.1) 0%, #ffffff 100%);
-border-left: 5px solid var(--casm-green);
-padding: 20px;
+background: #F0FBF2;
+border: 2px solid #1B6E2A;
 border-radius: 12px;
-margin-bottom: 25px;
+padding: 16px 18px;
+margin-bottom: 18px;
 display: flex;
 align-items: flex-start;
-gap: 15px;
-animation: slideInRight 0.6s ease-out;
-border: 2px solid var(--casm-green-light);
-}
-
-@keyframes slideInRight {
-0% { opacity: 0; transform: translateX(50px); }
-100% { opacity: 1; transform: translateX(0); }
+gap: 12px;
 }
 
 .confidentiality-icon {
-font-size: 1.8rem;
-color: var(--casm-green);
+font-size: 1.4rem;
+flex-shrink: 0;
+margin-top: 2px;
 }
 
 .confidentiality-text h3 {
-color: var(--casm-green-dark);
-margin-bottom: 8px;
-font-size: 1.1rem;
+color: #0F4A18;
+margin-bottom: 4px;
+font-size: 1rem;
 font-weight: 700;
 }
 
 .confidentiality-text p {
-color: var(--casm-gray);
-font-size: 0.9rem;
+color: #3A3530;
+font-size: 0.88rem;
 line-height: 1.5;
+margin: 0;
 }
 
 /* Formularios */
@@ -836,6 +824,7 @@ font-weight: 500;
 background: var(--casm-white);
 border-radius: 15px;
 padding: 25px;
+padding-top: 40px;
 margin-bottom: 20px;
 border-left: 5px solid var(--casm-gold);
 border-top: 3px solid var(--casm-green-light);
@@ -844,6 +833,7 @@ flex: 1;
 display: flex;
 flex-direction: column;
 box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+position: relative;
 }
 
 .question-header {
@@ -3130,14 +3120,7 @@ body {
 }
 
 /* Confidentiality banner */
-.confidentiality-banner {
-  background: linear-gradient(135deg, #F0FBF2 0%, #E8F7EC 100%) !important;
-  border: 2px solid rgba(27,110,42,0.25) !important;
-  border-left: 5px solid #1B6E2A !important;
-  border-radius: 14px !important;
-}
-.confidentiality-text h3 { color: #0F4A18 !important; }
-.confidentiality-text p  { color: #2E4A30 !important; }
+
 
 /* IQ score deep green/gold gradient */
 .iq-score-display {
@@ -3325,12 +3308,21 @@ button.exit-btn, button.exit-btn:hover, button.exit-btn:active, button.exit-btn:
   box-sizing: border-box;
 }
 /* Prevent any element from causing horizontal scroll */
-.section, .container, .card, .question-container,
+.section, .container, .question-container,
 .options, .confidentiality-banner,
-.result-bar-container, .test-selection,
+.result-bar-container,
 .form-grid, .gender-selection {
   max-width: 100%;
   overflow-x: hidden;
+}
+/* Test selection must never clip its cards */
+.test-selection {
+  max-width: 100%;
+  overflow: visible;
+}
+.test-card {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 /* On mobile: disable translateX hover effects that cause overflow */
 @media (max-width: 600px) {
@@ -3341,6 +3333,21 @@ button.exit-btn, button.exit-btn:hover, button.exit-btn:active, button.exit-btn:
   .test-card:hover { transform: translateY(-3px) !important; }
   /* Simplify section transitions on mobile */
   .section.active { animation: fadeIn 0.3s ease !important; }
+  /* Ensure test cards are always fully visible on mobile */
+  .test-selection {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    overflow: visible !important;
+  }
+  .test-card {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100px !important;
+  }
 }
 
 /* ═══════════════════════════════════════
@@ -3817,6 +3824,18 @@ Continuar a Datos Personales →
 <section id="step4" class="section">
 <div class="container">
 <div class="question-container">
+
+<!-- Test name badge -->
+<div id="test-name-badge" style="
+  position:absolute; top:14px; left:16px;
+  background: linear-gradient(135deg, #0F4A18, #1B6E2A);
+  color:#fff; font-size:0.7rem; font-weight:700;
+  padding:4px 12px; border-radius:50px;
+  letter-spacing:0.04em; font-family:'Plus Jakarta Sans',sans-serif;
+  box-shadow:0 2px 8px rgba(15,74,24,0.25);
+  z-index:10;
+"></div>
+
 <div class="step-indicator" style="margin-bottom: 20px;">
 <div class="step completed">1</div>
 <div class="step-line completed"></div>
@@ -4020,118 +4039,118 @@ const categories = ["Realista", "Investigativo", "Artístico", "Social", "Empren
 const category = categories[i % 6];
 const texts = {
 Realista: [
-"¿Te gustaría trabajar con herramientas y reparar cosas?",
-"¿Prefieres actividades al aire libre?",
-"¿Te interesaría la agricultura o ganadería?",
-"¿Te gustaría trabajar en construcción?",
-"¿Prefieres trabajar con máquinas?",
-"¿Te interesaría ser mecánico?",
-"¿Te gusta el trabajo físico?",
-"¿Te interesaría la pesca?",
-"¿Te gustaría ser bombero o policía?",
-"¿Prefieres ver resultados tangibles de tu trabajo?",
-"¿Te interesaría la carpintería?",
-"¿Te gustaría trabajar en una finca?",
-"¿Te interesaría la jardinería?",
-"¿Te gustaría arreglar electrodomésticos?",
-"¿Te interesaría la albañilería?",
-"¿Te gustaría ser electricista?",
-"¿Prefieres trabajar solo/a?"
+"Si pudieras elegir un proyecto escolar, ¿preferirías construir o armar algo físico con tus propias manos?",
+"Imagina que ves una máquina descompuesta. ¿Sientes la curiosidad de desarmarla para entender cómo funciona?",
+"¿Disfrutarías más pasar una tarde en un taller mecánico aprendiendo que en una sala de conferencias?",
+"Si tuvieras que elegir entre diseñar planos en una computadora o ejecutar la construcción en el campo, ¿elegiría el trabajo en campo?",
+"¿Te satisface más ver un resultado físico y tangible al final de tu jornada que un reporte escrito?",
+"Cuando algo en tu casa se daña, ¿prefieres intentar repararlo tú mismo antes de llamar a alguien?",
+"¿Valorarías un trabajo que te permite moverte físicamente y no estar sentado todo el día?",
+"Si pudieras especializarte, ¿te atraería más la ingeniería civil o la ingeniería de sistemas?",
+"¿Te genera satisfacción trabajar con materiales concretos como madera, metal o tierra?",
+"Imagina que te ofrecen trabajar en un proyecto de reforestación por tres meses. ¿Lo considerarías atractivo?",
+"¿Prefieres aprender cómo funciona algo desmontándolo, en lugar de leyendo su manual?",
+"Si pudieras elegir, ¿estudiarías una carrera donde pasaras más tiempo en laboratorios o talleres que en salones?",
+"¿Te interesaría una profesión donde puedas ver el impacto de tu trabajo en infraestructura física, como puentes o edificios?",
+"Cuando practicas un deporte o actividad física, ¿disfrutas más de las que requieren habilidad técnica y precisión?",
+"¿Sientes que el trabajo manual tiene tanto valor como el trabajo intelectual?",
+"Si te dijeran que necesitas pasar semanas en zonas rurales para un proyecto, ¿eso lo haría más interesante para ti?",
+"¿Prefieres solucionar problemas usando herramientas físicas que usando solo lógica abstracta?"
 ],
 Investigativo: [
-"¿Te gustaría investigar y analizar datos?",
-"¿Te interesa la biología?",
-"¿Te gusta resolver problemas complejos?",
-"¿Te interesa la química?",
-"¿Te gustaría ser científico?",
-"¿Te interesa la física?",
-"¿Te gustaría leer artículos científicos?",
-"¿Te interesa la medicina?",
-"¿Te gustaría hacer experimentos?",
-"¿Te interesa la farmacia?",
-"¿Te gustaría analizar estadísticas?",
-"¿Te interesa la informática?",
-"¿Te gustaría investigar en internet?",
-"¿Te interesa la ingeniería?",
-"¿Te gusta resolver acertijos?",
-"¿Te interesaría la arqueología?",
-"¿Te gustaría estudiar fenómenos naturales?"
+"Cuando lees sobre un descubrimiento científico, ¿te genera más curiosidad entender el proceso que llevó a ese descubrimiento que el resultado en sí?",
+"Si encuentras una contradicción en datos o en lo que alguien te dice, ¿sientes una necesidad casi automática de investigar más?",
+"¿Disfrutas más resolver un problema complejo que requiere análisis profundo que ejecutar una tarea bien definida?",
+"Imagina que tienes libre acceso a laboratorios y bases de datos científicas. ¿Pasarías horas explorando por puro placer?",
+"¿Te genera incomodidad aceptar explicaciones sin haberlas cuestionado o verificado por ti mismo?",
+"Si pudieras elegir entre liderar una reunión de negocios o presentar los hallazgos de una investigación propia, ¿elegiría lo segundo?",
+"¿Te ha pasado que empiezas a buscar información sobre algo y terminas horas después porque cada respuesta genera nuevas preguntas?",
+"¿Prefieres un problema sin respuesta conocida sobre uno con solución establecida?",
+"Cuando estudias, ¿tiendes a ir más allá del contenido del curso porque el tema genuinamente te genera curiosidad?",
+"¿Te atrae la idea de que tu trabajo futuro pueda generar conocimiento nuevo, aunque no tenga aplicación inmediata?",
+"Si tuvieras que elegir entre ser médico clínico o investigador en ciencias de la salud, ¿cuál te llama más?",
+"¿Disfrutas leer artículos técnicos o científicos aunque no sean parte de tu tarea o estudio formal?",
+"Cuando alguien te explica algo, ¿sueles hacerte preguntas sobre los fundamentos o supuestos detrás de esa explicación?",
+"¿Te interesaría una carrera donde el éxito se mide más por los conocimientos aportados que por las ganancias económicas?",
+"Si pudieras contribuir a resolver un problema global como el cambio climático o enfermedades raras, ¿lo harías desde la investigación?",
+"¿El proceso de formular una hipótesis y diseñar experimentos para probarla te resulta emocionante?",
+"¿Sientes que la mente analítica es una de tus fortalezas más naturales?"
 ],
 Artístico: [
-"¿Te gustaría dibujar o pintar?",
-"¿Te interesa la música?",
-"¿Te gustaría bailar?",
-"¿Te interesa la actuación?",
-"¿Te gustaría escribir?",
-"¿Te interesa la fotografía?",
-"¿Te gustaría el diseño?",
-"¿Te interesa la moda?",
-"¿Te gustaría tocar instrumentos?",
-"¿Te interesa la escultura?",
-"¿Te gustaría crear manualidades?",
-"¿Te interesa la decoración?",
-"¿Te gustaría la pintura?",
-"¿Te interesa el cine?",
-"¿Te gustaría la cerámica?",
-"¿Te interesa el teatro?",
-"¿Te gustaría la danza folclórica?"
+"Cuando quieres expresar algo que sientes con intensidad, ¿sueles recurrir a alguna forma creativa como escritura, dibujo, música o actuación?",
+"¿Te incomoda trabajar en entornos que no te permiten aportar tu propio estilo o visión personal?",
+"Imagina que te encargan diseñar la identidad visual de una organización. ¿Eso te emociona genuinamente?",
+"¿Prefieres trabajos donde tengas libertad de crear sobre trabajos donde debes seguir procedimientos estrictos?",
+"Cuando consumes arte, música o cine, ¿sueles analizar las decisiones creativas detrás de lo que ves o escuchas?",
+"¿Te ha pasado que una obra de arte, una canción o una película te genera una reflexión profunda sobre la vida?",
+"Si pudieras elegir entre ser un comunicador estratégico o un creador de contenido original, ¿a cuál te inclinarías?",
+"¿Disfrutas más el proceso de crear algo desde cero que optimizar algo ya existente?",
+"¿Sientes que la estética, el orden visual o la armonía en el entorno importan de manera significativa en tu bienestar?",
+"Imagina que tu trabajo requiere resolver un problema de comunicación para una comunidad. ¿Buscarías una solución creativa y visual antes que una administrativa?",
+"¿Te genera satisfacción recibir retroalimentación sobre algo que creaste, incluso si es crítica?",
+"¿Valoras que tu trabajo futuro tenga un componente de originalidad o que deje una huella estética?",
+"¿Te atrae la idea de trabajar en industrias como el diseño, la publicidad, la arquitectura o las artes escénicas?",
+"Cuando enfrentas un problema, ¿sueles pensar en soluciones poco convencionales antes que en las más obvias?",
+"Si tuvieras que presentar un tema complejo, ¿preferirías hacerlo con recursos visuales y narrativos que con tablas y reportes?",
+"¿La improvisación creativa bajo presión es algo que te resulta estimulante más que estresante?",
+"¿Crees que el arte y el diseño pueden cambiar mentalidades y resolver problemas sociales?"
 ],
 Social: [
-"¿Te gustaría ayudar a otros?",
-"¿Te interesa enseñar?",
-"¿Te gustaría cuidar niños?",
-"¿Te interesa la enfermería?",
-"¿Te gustaría aconsejar personas?",
-"¿Te interesa el trabajo social?",
-"¿Te gustaría trabajar en equipo?",
-"¿Te interesa la psicología?",
-"¿Te gustaría servir a la comunidad?",
-"¿Te interesaría ser pastor/a?",
-"¿Te gustaría mediar conflictos?",
-"¿Te interesa la pedagogía?",
-"¿Te gustaría cuidar ancianos?",
-"¿Te interesa el voluntariado?",
-"¿Te gustaría dar charlas?",
-"¿Te interesa la terapia física?",
-"¿Te gustaría organizar eventos comunitarios?"
+"¿Sientes una satisfacción genuina cuando logras que alguien comprenda algo que antes no entendía?",
+"Imagina que puedes elegir entre un trabajo bien pagado en soledad o uno modesto pero con impacto directo en personas vulnerables. ¿Qué valoras más?",
+"Cuando alguien a tu alrededor tiene un problema emocional, ¿tiendes a querer apoyar activamente aunque no te lo pidan?",
+"¿Te resulta energizante pasar tiempo ayudando, enseñando o acompañando a otras personas?",
+"Si pudieras elegir entre investigar una enfermedad en laboratorio o atender pacientes directamente, ¿cuál te atrae más?",
+"¿Disfrutas cuando logras mediar un conflicto y ambas partes quedan satisfechas?",
+"¿Te genera frustración observar injusticia social sin poder hacer nada al respecto?",
+"Imagina que puedes diseñar un programa para tu comunidad. ¿Lo enfocarías en la educación o el bienestar emocional de las personas?",
+"¿Valoras más el impacto social de tu trabajo que el reconocimiento individual que puedas recibir?",
+"¿Te atrae una carrera donde puedas acompañar a personas en momentos de crisis o vulnerabilidad?",
+"¿Sueles notar cuando alguien está pasando por algo difícil, incluso sin que lo verbalice?",
+"Si trabajaras como voluntario, ¿preferirías estar en contacto directo con las personas atendidas que en una oficina coordinando?",
+"¿Crees que una de tus mayores fortalezas es la capacidad de escuchar activamente sin juzgar?",
+"¿Te interesa comprender por qué las personas piensan y sienten de la manera en que lo hacen?",
+"¿Te gustaría trabajar en un entorno donde el éxito se mida por cambios positivos en la vida de las personas?",
+"¿Te resulta natural adaptar tu forma de comunicarte según el tipo de persona que tienes frente a ti?",
+"¿Sientes que las profesiones orientadas al bienestar humano tienen tanto valor como las orientadas a la tecnología o los negocios?"
 ],
 Emprendedor: [
-"¿Te gustaría liderar grupos?",
-"¿Te interesaría vender productos?",
-"¿Te gustaría tomar decisiones?",
-"¿Te interesa tener tu propio negocio?",
-"¿Te gustaría persuadir a otros?",
-"¿Te interesa la política?",
-"¿Te gustaría organizar proyectos?",
-"¿Te interesa ser gerente?",
-"¿Te gustaría negociar?",
-"¿Te interesa el marketing?",
-"¿Te gustaría asumir riesgos?",
-"¿Te interesa la administración?",
-"¿Te gustaría dirigir equipos?",
-"¿Te interesa el comercio?",
-"¿Te gustaría innovar?",
-"¿Te interesa ser empresario/a?",
-"¿Te gustaría planificar estrategias?"
+"Cuando identificas un problema en tu entorno, ¿tu primer instinto es pensar en cómo podrías resolverlo de manera rentable?",
+"¿Te resulta más estimulante liderar un proyecto desde cero que ejecutar tareas dentro de uno ya establecido?",
+"Imagina que tienes una idea de negocio y alguien te dice que hay mucha competencia. ¿Eso te motiva a diferenciarte más o te desanima?",
+"¿Prefieres asumir la responsabilidad total de un resultado, con sus riesgos incluidos, antes que compartir decisiones con otros?",
+"¿Te sientes cómodo convenciendo a otros de que tu visión o propuesta tiene valor?",
+"Si pudieras elegir entre un empleo estable con sueldo fijo o emprender con ingresos variables, ¿dónde pondrías tu energía?",
+"¿Disfrutas del proceso de negociación, incluso cuando estás en desventaja?",
+"¿Te genera más satisfacción crear las reglas de un sistema que cumplir las reglas de otro?",
+"Imagina que tu proyecto fracasa. ¿Tu primera reacción sería analizar qué salió mal para intentarlo de nuevo?",
+"¿Te resulta natural identificar oportunidades de negocio en situaciones que otros ven como problemas?",
+"¿Disfrutas del networking y de construir relaciones estratégicas que puedan beneficiar a tus proyectos?",
+"¿Te incomoda la idea de depender completamente de las decisiones de un jefe para avanzar en tu carrera?",
+"Si tuvieras que elegir entre ser un excelente especialista técnico o un líder visionario de equipos, ¿qué te define más?",
+"¿Te sientes capaz de motivar a un equipo en momentos de incertidumbre o presión?",
+"¿Prefieres trabajar en sectores dinámicos con alta incertidumbre que en sectores estables y predecibles?",
+"¿La idea de escalar un proyecto pequeño hasta convertirlo en algo grande te genera entusiasmo genuino?",
+"¿Crees que tienes tolerancia suficiente para esperar meses o años antes de ver resultados de tu trabajo?"
 ],
 Convencional: [
-"¿Te gustaría trabajar con números?",
-"¿Te interesa la contabilidad?",
-"¿Te gustaría organizar archivos?",
-"¿Te interesa la secretaría?",
-"¿Te gustaría seguir procedimientos?",
-"¿Te interesa el trabajo de oficina?",
-"¿Te gustaría ser metódico/a?",
-"¿Te interesa la banca?",
-"¿Te gustaría clasificar información?",
-"¿Te interesa la auditoría?",
-"¿Te gustaría trabajar con datos?",
-"¿Te interesa la estadística?",
-"¿Te gustaría la precisión?",
-"¿Te interesa el archivo?",
-"¿Te gustaría cumplir horarios?",
-"¿Te interesa la recepción?",
-"¿Te gustaría el orden?"
+"¿Te genera tranquilidad trabajar en entornos donde los procedimientos están bien definidos y son predecibles?",
+"Imagina que debes auditar las finanzas de una organización. ¿Encontrarías ese proceso satisfactorio más que agotador?",
+"¿Prefieres un trabajo donde el éxito se mide con indicadores claros y medibles más que con resultados cualitativos?",
+"¿Disfrutas organizar información de manera sistemática para que otros puedan usarla con facilidad?",
+"Si en tu trabajo hay dos caminos —uno creativo pero ambiguo y otro más riguroso pero claro— ¿cuál te da más seguridad?",
+"¿Te resulta satisfactorio encontrar el error en un cálculo o en un proceso que otros no habían detectado?",
+"¿Valoras la precisión y el orden como condiciones necesarias para que un equipo funcione bien?",
+"Imagina que debes presentar el estado financiero de un proyecto ante directivos. ¿Eso te resulta más cómodo que hablar frente a estudiantes?",
+"¿Te atrae la idea de trabajar en instituciones consolidadas donde los procesos tienen historia y respaldo?",
+"¿Sientes que cumplir con estándares normativos, legales o contables es parte fundamental de un trabajo bien hecho?",
+"¿Prefieres construir sistemas de control que eviten errores antes que improvisar soluciones cuando los errores ya ocurrieron?",
+"¿Te interesaría especializarte en áreas como finanzas, contabilidad, auditoría o administración de procesos?",
+"¿El hecho de que una decisión esté bien documentada y respaldada por datos te da más confianza para tomarla?",
+"¿Disfrutas cuando logras que un proceso complejo quede simplificado en un flujo claro y eficiente?",
+"¿Te generaría satisfacción ser la persona que garantiza que una organización opere sin errores administrativos?",
+"¿Prefieres una carrera donde la atención al detalle y la rigurosidad sean más valoradas que la creatividad espontánea?",
+"¿Te sientes más seguro tomando decisiones basadas en datos históricos que en intuición o tendencias subjetivas?"
 ]
 };
 const text = texts[category][Math.floor(i / 6) % texts[category].length];
@@ -4917,6 +4936,15 @@ currentAgeGroup = 'adult';
 } else if (currentTest === 'entrepreneur') {
 questions = entrepreneurQuestions;
 }
+
+// Set test name badge
+const badgeNames = {
+  vocational: '🎓 Test Vocacional',
+  iq: '🧠 Test de Capacidad Mental',
+  entrepreneur: '💡 Test de Emprendimiento'
+};
+const badge = document.getElementById('test-name-badge');
+if (badge) badge.textContent = badgeNames[currentTest] || '';
 
 showQuestion();
 showSection('step4');
