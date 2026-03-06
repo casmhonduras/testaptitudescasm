@@ -129,7 +129,12 @@ justify-content: space-between;
 gap: 12px;
 min-height: 55px;
 }
-.header-logo-left, .header-logo-right {
+.header-logo-left {
+flex-shrink: 0;
+display: flex;
+align-items: center;
+}
+.header-logo-right {
 flex-shrink: 0;
 display: flex;
 align-items: center;
@@ -217,35 +222,26 @@ font-size: 1.1rem;
 text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
+/* ── BOTÓN SALIR ── */
 .exit-btn {
-position: fixed;
-top: 15px;
-left: 15px;
-background: var(--casm-red);
-color: #ffffff !important;
-border: none;
-padding: 8px 15px;
-border-radius: 20px;
-cursor: pointer;
-font-weight: 700;
-font-size: 0.85rem;
-z-index: 2000;
-box-shadow: 0 3px 8px rgba(198, 40, 40, 0.4);
-display: none;
-transition: all 0.3s;
-text-decoration: none;
+  position: fixed;
+  top: 92px;
+  left: 10px;
+  z-index: 1500;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8B1010;
+  letter-spacing: 0.01em;
+  display: none;
 }
-
-.exit-btn:hover {
-background: #B71C1C;
-transform: scale(1.05);
-box-shadow: 0 4px 12px rgba(198, 40, 40, 0.5);
-}
-
-.exit-btn.visible {
-display: block;
-animation: bounceIn 0.6s;
-}
+.exit-btn:hover { color: #C62828; text-decoration: underline; }
+body:not(.splash-active) .exit-btn { display: block !important; }
 
 @keyframes bounceIn {
 0% { opacity: 0; transform: scale(0.3); }
@@ -1308,7 +1304,7 @@ left: 0;
 width: 100%;
 height: 100%;
 background: rgba(0,0,0,0.7);
-z-index: 3000;
+z-index: 9000;
 justify-content: center;
 align-items: center;
 padding: 20px;
@@ -1914,7 +1910,7 @@ z-index: 0;
 opacity: 0.85;
 }
 
-body > *:not(#particles-canvas) {
+body > *:not(#particles-canvas):not(.exit-btn) {
 position: relative;
 z-index: 1;
 }
@@ -2355,18 +2351,6 @@ animation: pageEnter 0.5s cubic-bezier(0.4,0,0.2,1) !important;
 }
 
 /* ═══ FLOATING ACTION BUTTON ═══ */
-.exit-btn {
-background: linear-gradient(135deg, #C62828, #B71C1C) !important;
-border-radius: 50px !important;
-font-family: 'Plus Jakarta Sans', sans-serif !important;
-box-shadow: 0 4px 20px rgba(198,40,40,0.4) !important;
-transition: all 0.3s !important;
-}
-.exit-btn:hover {
-transform: scale(1.08) translateY(-2px) !important;
-box-shadow: 0 8px 28px rgba(198,40,40,0.55) !important;
-}
-
 /* ═══ TERMS CHECKBOX AREA ═══ */
 .terms-checkbox {
 border-radius: 14px !important;
@@ -2503,7 +2487,6 @@ animation: bounceIn 0.6s ease-out;
 body.splash-active .scroll-progress,
 body.splash-active canvas#particles-canvas,
 body.splash-active .exit-btn,
-body.splash-active #global-exit-btn,
 body.splash-active .modal-overlay,
 body.splash-active header.header,
 body.splash-active .section,
@@ -3257,7 +3240,7 @@ body, p, li, span, input, select, button {
 
 /* Mobile menu padding fix */
 @media (max-width: 400px) {
-  .exit-btn { padding: 6px 10px; font-size: 0.78rem; top: 10px; left: 10px; }
+  
 }
 
 /* Ensure option text doesn't overflow */
@@ -3268,11 +3251,6 @@ body, p, li, span, input, select, button {
   .option { padding: 18px 14px; min-height: 52px; }
   .btn { min-height: 48px; }
   .gender-option { min-height: 80px; }
-}
-
-/* Ensure white text in exit button override */
-button.exit-btn, button.exit-btn:hover, button.exit-btn:active, button.exit-btn:focus {
-  color: #ffffff !important;
 }
 
 /* Animated gradient on splash title */
@@ -3302,90 +3280,97 @@ button.exit-btn, button.exit-btn:hover, button.exit-btn:active, button.exit-btn:
 }
 
 /* ═══════════════════════════════════════
-   MOBILE OVERFLOW & LAYOUT FIX
+   MOBILE-FIRST RESPONSIVE
 ═══════════════════════════════════════ */
-*, *::before, *::after {
-  box-sizing: border-box;
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
-/* Prevent any element from causing horizontal scroll */
-.section, .container, .question-container,
-.options, .confidentiality-banner,
-.result-bar-container,
+
+.section, .container, .card, .question-container,
+.options, .confidentiality-banner, .result-bar-container,
 .form-grid, .gender-selection {
   max-width: 100%;
   overflow-x: hidden;
 }
-/* Test selection must never clip its cards */
-.test-selection {
-  max-width: 100%;
-  overflow: visible;
-}
-.test-card {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-/* On mobile: disable translateX hover effects that cause overflow */
-@media (max-width: 600px) {
-  .option:hover   { transform: none !important; }
-  .option.selected { transform: none !important; }
-  .result-bar-item:hover { transform: none !important; box-shadow: none !important; }
-  .card:hover     { transform: none !important; }
-  .test-card:hover { transform: translateY(-3px) !important; }
-  /* Simplify section transitions on mobile */
+
+.test-selection { max-width: 100%; overflow: visible; }
+.test-card { max-width: 100%; box-sizing: border-box; }
+
+/* ── SMALL PHONES (≤ 480px) ── */
+@media (max-width: 480px) {
+  .container { padding: 8px !important; padding-top: 40px !important; }
+  .card { padding: 14px 12px !important; border-radius: 12px !important; }
+  .card-title { font-size: 1.3rem !important; }
+  .card-subtitle { font-size: 0.82rem !important; }
+
+  /* Form */
+  .form-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .form-input { font-size: 16px !important; padding: 10px 12px !important; }
+  .form-label { font-size: 0.82rem !important; }
+
+  /* Gender */
+  .gender-selection { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .gender-option { padding: 12px 8px !important; font-size: 0.8rem !important; }
+  .gender-emoji { font-size: 1.8rem !important; }
+
+  /* Buttons */
+  .btn { padding: 10px 16px !important; font-size: 0.85rem !important; min-height: 44px !important; }
+  .btn-group { flex-direction: column !important; gap: 8px !important; }
+  .btn-group .btn { width: 100% !important; }
+
+  /* Test cards */
+  .test-selection { display: flex !important; flex-direction: column !important; gap: 10px !important; }
+  .test-card { display: block !important; width: 100% !important; padding: 16px 12px !important; }
+  .test-card .test-icon { width: 52px !important; height: 52px !important; font-size: 1.6rem !important; }
+  .test-title { font-size: 1rem !important; }
+  .test-description { font-size: 0.78rem !important; }
+
+  /* Questions */
+  .question-container { padding: 14px 12px !important; padding-top: 36px !important; }
+  .question-text { font-size: 0.92rem !important; line-height: 1.5 !important; margin-bottom: 14px !important; }
+  .option { padding: 12px 10px !important; font-size: 0.85rem !important; min-height: 44px !important; }
+  .option:hover, .option.selected { transform: none !important; }
+  .question-number { font-size: 0.78rem !important; }
+
+  /* Header */
+  .header-logo { height: 40px !important; max-width: 50px !important; }
+  .casm-fullname { font-size: 0.72rem !important; }
+  .casm-mission { font-size: 0.65rem !important; }
+  .header-badge { font-size: 0.6rem !important; }
+
+  /* Results */
+  .result-bar-item { flex-direction: column !important; text-align: center !important; }
+  .business-grid { grid-template-columns: 1fr !important; }
+
+  /* No hover transforms on mobile */
+  .card:hover, .test-card:hover, .result-bar-item:hover { transform: none !important; }
   .section.active { animation: fadeIn 0.3s ease !important; }
-  /* Ensure test cards are always fully visible on mobile */
-  .test-selection {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 16px !important;
-    overflow: visible !important;
-  }
-  .test-card {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 100px !important;
-  }
+
+  /* Test name badge */
+  #test-name-badge { font-size: 0.6rem !important; padding: 3px 8px !important; top: 10px !important; left: 10px !important; }
 }
 
-/* ═══════════════════════════════════════
-   BOTÓN SALIR FLOTANTE
-═══════════════════════════════════════ */
-#global-exit-btn {
-  position: fixed;
-  top: 10px;
-  right: 14px;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(255,255,255,0.88);
-  color: #8B1010;
-  border: 1.5px solid rgba(139,16,16,0.35);
-  border-radius: 50px;
-  padding: 4px 12px 4px 9px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  cursor: pointer;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.10);
-  backdrop-filter: blur(6px);
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-  letter-spacing: 0.02em;
+/* ── MEDIUM PHONES (481–600px) ── */
+@media (min-width: 481px) and (max-width: 600px) {
+  .container { padding: 10px !important; padding-top: 44px !important; }
+  .form-grid { grid-template-columns: 1fr !important; }
+  .form-input { font-size: 16px !important; }
+  .btn-group { flex-wrap: wrap; gap: 8px; }
+  .test-selection { display: flex !important; flex-direction: column !important; gap: 12px !important; }
+  .test-card { display: block !important; width: 100% !important; }
+  .question-text { font-size: 0.95rem !important; }
+  .option { padding: 12px !important; font-size: 0.88rem !important; }
+  .option:hover, .option.selected { transform: none !important; }
+  .card:hover { transform: none !important; }
 }
-#global-exit-btn:hover {
-  background: #8B1010;
-  color: #fff;
-  border-color: #8B1010;
-}
-#global-exit-btn:active { opacity: 0.85; }
-.exit-icon { font-style: normal; font-size: 0.7rem; font-weight: 900; }
-.exit-label { font-size: 0.75rem; }
 
-/* Ocultar botón en splash */
-body.on-splash #global-exit-btn { display: none !important; }
+/* ── Ensure modal is always on top ── */
+#exit-modal {
+  z-index: 99999 !important;
+}
 
 </style>
 </head>
@@ -3482,18 +3467,31 @@ body.on-splash #global-exit-btn { display: none !important; }
 <div class="scroll-progress" id="scroll-progress"></div>
 <canvas id="particles-canvas"></canvas>
 
-<button class="exit-btn" id="exit-btn" onclick="confirmExit()">🏠 Inicio/Salir</button>
-
 <div class="modal-overlay" id="exit-modal">
 <div class="modal-content">
-<h3 class="modal-title">⚠️ ¿Abandonar el test?</h3>
-<p style="color: var(--casm-gray); margin-bottom: 25px; font-size: 1.1rem; font-weight: 500;">¿Estás seguro? Perderás todo tu progreso.</p>
-<div class="btn-group" style="margin-top: 0;">
-<button class="btn btn-secondary" onclick="closeModal()">Continuar Test</button>
-<button class="btn btn-danger" onclick="exitToHome()">Sí, Salir</button>
+  <!-- Mensaje cuando NO está en el test -->
+  <div id="modal-msg-general">
+    <div style="font-size:2.5rem; margin-bottom:12px;">🚪</div>
+    <h3 class="modal-title">¿Salir de la plataforma?</h3>
+    <p style="color: var(--casm-gray); margin-bottom: 25px; font-size: 1rem; font-weight: 500;">¿Estás seguro que quieres salir? Tendrás que verificarte nuevamente para ingresar.</p>
+  </div>
+  <!-- Mensaje cuando SÍ está en el test -->
+  <div id="modal-msg-test" style="display:none;">
+    <div style="font-size:2.5rem; margin-bottom:12px;">⚠️</div>
+    <h3 class="modal-title" style="color:#C62828;">¿Abandonar el test?</h3>
+    <p style="color: var(--casm-gray); margin-bottom: 8px; font-size: 1rem; font-weight: 500;">¿Estás seguro que quieres abandonar?</p>
+    <div style="background:#FFF3E0; border-left:4px solid #E65100; border-radius:8px; padding:12px 14px; margin-bottom:20px; font-size:0.9rem; color:#BF360C; font-weight:600;">
+      ⛔ Perderás todo tu progreso y deberás empezar el test de nuevo desde el inicio.
+    </div>
+  </div>
+  <div class="btn-group" style="margin-top: 0;">
+    <button class="btn btn-secondary" onclick="closeModal()">Seguir aquí</button>
+    <button class="btn btn-danger" onclick="exitToHome()">Sí, salir</button>
+  </div>
 </div>
 </div>
-</div>
+
+<button class="exit-btn" id="exit-btn" onclick="confirmExit()">‹ Salir</button>
 
 <header class="header" id="main-header">
 <div class="header-content">
@@ -3513,12 +3511,6 @@ body.on-splash #global-exit-btn { display: none !important; }
   </div>
 </div>
 </header>
-
-<!-- BOTÓN SALIR FLOTANTE -->
-<button id="global-exit-btn" onclick="performExit()" title="Salir de la sesión" aria-label="Salir">
-  <span class="exit-icon">✕</span>
-  <span class="exit-label">Salir</span>
-</button>
 
 <!-- PASO 0: TÉRMINOS Y CONDICIONES -->
 <section id="step0" class="section active">
@@ -5653,38 +5645,26 @@ goToStep2();
 }
 
 function confirmExit() {
-document.getElementById('exit-modal').classList.add('active');
+  const inTest = document.getElementById('step4') &&
+                 document.getElementById('step4').classList.contains('active');
+  document.getElementById('modal-msg-general').style.display = inTest ? 'none' : 'block';
+  document.getElementById('modal-msg-test').style.display    = inTest ? 'block' : 'none';
+  document.getElementById('exit-modal').style.display = 'flex';
 }
 
 function closeModal() {
-document.getElementById('exit-modal').classList.remove('active');
+  document.getElementById('exit-modal').style.display = 'none';
 }
 
 function exitToHome() {
-closeModal();
-// If user has already registered, go to test selection; otherwise go to terms
-if (userData && userData.name) {
-  // Reset test state but keep user data
-  currentTest = '';
-  currentQuestion = 0;
-  answers = [];
-  questions = [];
-  testResults = {};
-  document.querySelectorAll('.test-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('selected-test').value = '';
-  document.getElementById('btn-email').style.display = 'none';
-  ['careersChart', 'iqChart', 'entrepreneurChart'].forEach(id => {
-    const canvas = document.getElementById(id);
-    if (canvas) { try { const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); } catch(e) {} }
-  });
-  goToStep2();
-} else {
-  restartTest();
-}
+  closeModal();
+  performExit();
 }
 
 /* ── Función del botón Salir global ── */
 function performExit() {
+  // Hide modal first
+  document.getElementById('exit-modal').style.display = 'none';
   // Reset ALL state including user data
   userData = null;
   currentTest = '';
@@ -5711,13 +5691,29 @@ function performExit() {
   const eduSel = document.getElementById('user-education');
   if (eduSel) eduSel.value = '';
   document.querySelectorAll('.gender-option').forEach(o => o.classList.remove('selected'));
-  // Always go back to the very beginning (terms & conditions)
-  goToStep0();
+  // Hide all sections
+  document.querySelectorAll('.section').forEach(s => { s.classList.remove('active','exiting'); s.style.display='none'; });
+  // Reset robot verification and show splash screen
+  splashVerified = false;
+  robotCheckInProgress = false;
+  const robotCb = document.getElementById('robot-cb-input');
+  if (robotCb) robotCb.checked = false;
+  const robotBox = document.querySelector('.robot-check-box');
+  if (robotBox) robotBox.classList.remove('verified');
+  const splashBtn = document.getElementById('splash-btn');
+  const splashIcon = document.getElementById('splash-btn-icon');
+  const splashText = document.getElementById('splash-btn-text');
+  if (splashBtn) splashBtn.disabled = true;
+  if (splashIcon) splashIcon.textContent = '🔒';
+  if (splashText) splashText.textContent = 'Verifica para continuar';
+  // Show splash
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
+    splash.style.display = '';
+    splash.classList.remove('fade-out');
+    document.body.classList.add('splash-active');
+  }
 }
-
-
-
-
 // ╔═══════════════════════════════════════════════╗
 // ║         SPLASH SCREEN SYSTEM                 ║
 // ╚═══════════════════════════════════════════════╝
@@ -5848,13 +5844,20 @@ function enterApp() {
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
   splash.classList.add('fade-out');
-  // Stop splash canvas animation
   if (window._cancelSplashAnim) window._cancelSplashAnim();
   setTimeout(() => {
     splash.style.display = 'none';
     document.body.classList.remove('splash-active');
-    // Trigger main particles
     if (typeof initParticles === 'function') initParticles();
+    // Directly show step0 — bypass showSection to avoid timing conflict
+    document.querySelectorAll('.section').forEach(s => {
+      s.classList.remove('active', 'exiting');
+      s.style.display = 'none';
+    });
+    const step0 = document.getElementById('step0');
+    step0.style.display = 'block';
+    step0.classList.add('active');
+    window.scrollTo({ top: 0 });
   }, 750);
 }
 // ─────────────────────────────────────────────────
